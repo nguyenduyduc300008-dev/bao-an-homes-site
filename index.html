@@ -233,6 +233,11 @@
       .zone-back { display: inline-flex; margin: 0 0 50px; }
       .lot-list-grid { margin-bottom: 30px; }
       .listings-section { padding-top: 0; }
+      .zone-listings { margin: 0 0 34px; }
+      .zone-group { margin-bottom: 26px; }
+      .zone-group-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+      .zone-group-head h3 { margin: 0; color: var(--gold-deep); font-family: var(--serif); font-size: 22px; font-weight: 500; }
+      .zone-group-head h3 span { color: var(--muted); font-family: var(--sans); font-size: 12px; font-weight: 600; }
       .lot-list-card { position: relative; }
       .lot-list-card .project-link::after { position: absolute; inset: 0; content: ""; }
       .lot-list-price { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
@@ -718,6 +723,15 @@
     </section>
 
     <script>
+      // Hỗ trợ trình duyệt cũ (iPhone đời cũ, trình duyệt trong Zalo...)
+      const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
+      if (!Element.prototype.replaceChildren) {
+        Element.prototype.replaceChildren = function replaceChildren(...nodes) {
+          this.innerHTML = "";
+          this.append(...nodes);
+        };
+      }
+
       const projects = {
         danera: {
           category: "Dự án",
@@ -911,6 +925,24 @@
             ${project.source ? `<p class="project-source">Thông tin tham khảo: <a href="${project.source.url}" target="_blank" rel="noopener noreferrer">${project.source.label}</a>. Dữ liệu quy hoạch, tiện ích và sản phẩm cần được xác nhận bằng tài liệu chính thức trước khi giao dịch.</p>` : ""}
           </section>
         ` : "";
+        const zoneEntries = Object.entries(project.zones || {}).sort(([a], [b]) => a.localeCompare(b));
+        const zoneListings = zoneEntries.length ? `
+          <section class="zone-listings" aria-labelledby="zone-listings-title">
+            <div class="product-catalog-header">
+              <p class="section-kicker">${project.title} · Đang mở bán</p>
+              <h2 class="section-title" id="zone-listings-title">Lô đất theo phân khu</h2>
+            </div>
+            ${zoneEntries.map(([zoneKey, zone]) => `
+              <div class="zone-group">
+                <div class="zone-group-head">
+                  <h3>Phân khu ${zone.code} <span>· ${String(zone.lots.length).padStart(2, "0")} lô</span></h3>
+                  <a class="text-link" href="#du-an/${projectKey}/${zoneKey}">Xem phân khu ${zone.code} <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="project-grid">${zone.lots.map((lot, index) => lotListCard(projectKey, zoneKey, index)).join("")}</div>
+              </div>
+            `).join("")}
+          </section>
+        ` : "";
         const nearbySection = project.nearby ? `
           <section class="nearby-section" aria-labelledby="nearby-title">
             <div class="product-catalog-header">
@@ -949,6 +981,7 @@
             </div>
             ${nearbySection}
             ${productCatalog}
+            ${zoneListings}
             <div class="detail-facts" aria-label="Nội dung trang dự án">
               <div class="detail-fact"><strong>Tổng quan</strong><span>${project.overview || "Thông tin giới thiệu dự án"}</span></div>
               <div class="detail-fact"><strong>Sản phẩm</strong><span>${project.sectors ? project.productSummary : "Liên hệ để cập nhật danh mục"}</span></div>
@@ -1125,10 +1158,10 @@
 
       function renderRoute() {
         const projectRoute = window.location.hash.match(/^#du-an\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?(?:\/([a-z0-9-]+))?$/i);
-        if (projectRoute && Object.hasOwn(projects, projectRoute[1])) {
+        if (projectRoute && hasOwn(projects, projectRoute[1])) {
           const [, projectKey, zoneKey, lotKey] = projectRoute;
           const zones = projects[projectKey].zones;
-          if (zoneKey && zones && Object.hasOwn(zones, zoneKey)) {
+          if (zoneKey && zones && hasOwn(zones, zoneKey)) {
             const lotIndex = lotKey ? zones[zoneKey].lots.findIndex((lot, index) => lotSlug(lot, index) === lotKey.toLowerCase()) : -1;
             if (lotIndex >= 0) {
               renderLotPage(projectKey, zoneKey, lotIndex);
