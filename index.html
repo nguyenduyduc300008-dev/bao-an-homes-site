@@ -266,6 +266,14 @@
       .news-excerpt { margin-bottom: 14px; color: #77827a; font-size: 11px; line-height: 1.75; }
       .news-read { padding: 0; border: 0; background: none; color: var(--gold-deep); cursor: pointer; font-size: 10px; font-weight: 800; }
       .news-read:hover { text-decoration: underline; text-underline-offset: 4px; }
+      .news-card.is-featured { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
+      .news-card.is-featured .news-cover { height: 100%; min-height: 270px; }
+      .news-card.is-featured .news-content { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 28px; }
+      .news-card.is-featured .news-title { font-size: 28px; }
+      .news-card.is-featured .news-excerpt { font-size: 12px; }
+      .modal-links { display: grid; gap: 8px; margin: 14px 0 0; white-space: normal !important; }
+      .modal-links[hidden] { display: none; }
+      .modal-links a { color: var(--gold-deep); font-size: 12px; font-weight: 700; }
 
       .about-layout { display: grid; grid-template-columns: .92fr 1.08fr; align-items: center; gap: 70px; }
       .about-visual { position: relative; min-height: 378px; }
@@ -365,6 +373,10 @@
         .filter-button { padding: 8px 11px; font-size: 10px; }
         .news-grid { grid-template-columns: 1fr; }
         .news-cover, .news-card:first-child .news-cover { height: 205px; }
+        .news-card.is-featured { grid-template-columns: 1fr; }
+        .news-card.is-featured .news-cover { min-height: 0; }
+        .news-card.is-featured .news-content { padding: 18px; }
+        .news-card.is-featured .news-title { font-size: 23px; }
         .about-layout { grid-template-columns: 1fr; gap: 35px; }
         .about-visual { min-height: 320px; }
         .about-image { height: 285px; }
@@ -588,6 +600,15 @@
             <p class="section-intro">Một vài chủ đề hữu ích để bạn có thêm góc nhìn trước khi tìm hiểu thị trường và sản phẩm bất động sản.</p>
           </div>
           <div class="news-grid">
+            <article class="news-card is-featured">
+              <div class="news-cover"><img src="danera-bay-exterior.jpg" alt="Phối cảnh khu đô thị Golden Hills (Danera Bay), Tây Bắc Đà Nẵng" loading="lazy"><span class="news-category">Thị trường</span></div>
+              <div class="news-content">
+                <p class="news-date">03/10/2026 · Nguồn: Báo Chính phủ</p>
+                <h3 class="news-title">Golden Hills Đà Nẵng chính thức tái khởi động</h3>
+                <p class="news-excerpt">Dự án khoảng 335 ha ở Tây Bắc Đà Nẵng được triển khai trở lại sau thời gian dài vướng mắc. Bảo An Homes tóm tắt những điểm người mua cần biết.</p>
+                <button class="news-read" type="button" data-news="goldenhills">Đọc bài viết <span aria-hidden="true">→</span></button>
+              </div>
+            </article>
             <article class="news-card">
               <div class="news-cover"><img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&amp;fit=crop&amp;w=1000&amp;q=80" alt="Đường nét kiến trúc thành thị" loading="lazy"><span class="news-category">Thị trường</span></div>
               <div class="news-content">
@@ -683,6 +704,7 @@
         <p class="modal-eyebrow" id="modal-eyebrow"></p>
         <h2 id="modal-title"></h2>
         <p id="modal-text"></p>
+        <p class="modal-links" id="modal-links" hidden></p>
         <div class="modal-footer">
           <small>Thông tin chi tiết có thể thay đổi.<br>Vui lòng xác nhận trước khi giao dịch.</small>
           <button class="modal-close" type="button">Đóng</button>
@@ -848,6 +870,13 @@
       };
 
       const newsDetails = {
+        goldenhills: {
+          eyebrow: "Thị trường · 03/10/2026",
+          title: "Golden Hills Đà Nẵng chính thức tái khởi động",
+          text: "Chiều 3/10/2026, dự án Khu đô thị sinh thái Golden Hills ở Tây Bắc Đà Nẵng được tái khởi động sau thời gian dài vướng mắc về đất đai và đầu tư, kèm lễ động thổ một trường mầm non ngay trong dự án.\n\nTheo Báo Chính phủ, dự án rộng khoảng 335 ha, do Công ty Cổ phần Trung Nam làm chủ đầu tư và KITA Group phát triển; thành phố Đà Nẵng đã cho phép tiếp tục giao đất, cho thuê đất để dự án triển khai trở lại.\n\nĐiều người mua nên lưu ý: thành phố yêu cầu chủ đầu tư hoàn thiện pháp lý, thi công đúng tiến độ, công khai thông tin và bảo đảm quyền lợi của khách hàng. Mốc hoàn thành và bàn giao cụ thể chưa được công bố.\n\nBảo An Homes sẽ tiếp tục cập nhật khi có thông tin chính thức mới.",
+          source: { label: "Báo Điện tử Chính phủ: Tái khởi động dự án Golden Hills", url: "https://baochinhphu.vn/tai-khoi-dong-du-an-golden-hills-dua-nguon-luc-tro-lai-phuc-vu-phat-trien-10226100317500548.htm" },
+          link: { label: "Xem dự án Danera Bay (Golden Hills)", href: "#du-an/danera" },
+        },
         danang: {
           eyebrow: "Góc nhìn · Thị trường",
           title: "Đà Nẵng qua lăng kính của người tìm nơi an cư",
@@ -876,6 +905,25 @@
         modalEyebrow.textContent = details.eyebrow;
         modalTitle.textContent = details.title;
         modalText.textContent = details.text;
+        const modalLinks = document.querySelector("#modal-links");
+        const links = [];
+        if (details.source) {
+          const source = document.createElement("a");
+          source.href = details.source.url;
+          source.target = "_blank";
+          source.rel = "noopener noreferrer";
+          source.textContent = `Nguồn: ${details.source.label} ↗`;
+          links.push(source);
+        }
+        if (details.link) {
+          const inner = document.createElement("a");
+          inner.href = details.link.href;
+          inner.textContent = `${details.link.label} →`;
+          inner.addEventListener("click", () => infoDialog.close());
+          links.push(inner);
+        }
+        modalLinks.replaceChildren(...links);
+        modalLinks.hidden = links.length === 0;
         infoDialog.showModal();
       }
 
