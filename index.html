@@ -231,6 +231,7 @@
       .lot-body .lot-map-note { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
       .zone-back { display: inline-flex; margin: 0 0 50px; }
       .lot-list-grid { margin-bottom: 30px; }
+      .listings-section { padding-top: 0; }
       .lot-list-card { position: relative; }
       .lot-list-card .project-link::after { position: absolute; inset: 0; content: ""; }
       .lot-list-price { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
@@ -472,6 +473,7 @@
         <nav class="main-nav" id="main-nav" aria-label="Điều hướng chính">
           <a href="#trang-chu">Trang chủ</a>
           <a href="#du-an">Dự án</a>
+          <a href="#lo-dat">Lô đất</a>
           <a href="#tin-tuc">Tin tức</a>
           <a href="#ve-chung-toi">Về chúng tôi</a>
           <button class="nav-logout" type="button" id="nav-logout" hidden>Đăng xuất</button>
@@ -560,6 +562,16 @@
               </div>
             </article>
           </div>
+        </div>
+      </section>
+
+      <section class="section listings-section" id="lo-dat">
+        <div class="container">
+          <div class="section-header">
+            <div><p class="section-kicker">Đang mở bán</p><h2 class="section-title">Lô đất nổi bật</h2></div>
+            <p class="section-intro">Các lô đất Bảo An Homes đang giới thiệu, có ảnh và video thực tế. Bấm vào thẻ để xem chi tiết, vị trí và nhận tư vấn.</p>
+          </div>
+          <div class="project-grid" id="home-lot-grid"></div>
         </div>
       </section>
 
@@ -964,27 +976,7 @@
       function renderZonePage(projectKey, zoneKey) {
         const project = projects[projectKey];
         const zone = project.zones[zoneKey];
-        const lotListCards = zone.lots.map((lot, index) => {
-          const { lotName } = lotNames(project, zone, lot);
-          const href = `#du-an/${projectKey}/${zoneKey}/${lotSlug(lot, index)}`;
-          return `
-            <article class="project-card lot-list-card">
-              <div class="project-photo">
-                <img src="${lot.images[0].src}" alt="${lot.images[0].alt}" loading="lazy">
-                <span class="project-tag">${lot.video ? "Có video thực tế" : "Đang mở bán"}</span>
-              </div>
-              <div class="project-info">
-                <div class="project-location"><span aria-hidden="true">⌖</span> Phân khu ${zone.code} · ${project.title}</div>
-                <h3 class="project-title">${lotName}</h3>
-                <p class="lot-list-price">Giá: <strong>${lot.price || "Liên hệ"}</strong></p>
-                <div class="project-details">
-                  <span>${lot.images.length} ảnh</span>${lot.video ? "<span>Video</span>" : ""}<span>Bản đồ vị trí</span>
-                </div>
-                <a class="project-link" href="${href}"><span>Xem chi tiết lô</span><span aria-hidden="true">→</span></a>
-              </div>
-            </article>
-          `;
-        }).join("");
+        const lotListCards = zone.lots.map((lot, index) => lotListCard(projectKey, zoneKey, index)).join("");
 
         showDetailPage(`
           <div class="container">
@@ -1004,6 +996,43 @@
             <a class="text-link zone-back" href="#du-an/${projectKey}"><span aria-hidden="true">←</span> Quay lại ${project.title}</a>
           </div>
         `);
+      }
+
+      function lotListCard(projectKey, zoneKey, lotIndex) {
+        const project = projects[projectKey];
+        const zone = project.zones[zoneKey];
+        const lot = zone.lots[lotIndex];
+        const { lotName } = lotNames(project, zone, lot);
+        return `
+          <article class="project-card lot-list-card">
+            <div class="project-photo">
+              <img src="${lot.images[0].src}" alt="${lot.images[0].alt}" loading="lazy">
+              <span class="project-tag">${lot.video ? "Có video thực tế" : "Đang mở bán"}</span>
+            </div>
+            <div class="project-info">
+              <div class="project-location"><span aria-hidden="true">⌖</span> Phân khu ${zone.code} · ${project.title}</div>
+              <h3 class="project-title">${lotName}</h3>
+              <p class="lot-list-price">Giá: <strong>${lot.price || "Liên hệ"}</strong></p>
+              <div class="project-details">
+                <span>${lot.images.length} ảnh</span>${lot.video ? "<span>Video</span>" : ""}<span>Bản đồ vị trí</span>
+              </div>
+              <a class="project-link" href="#du-an/${projectKey}/${zoneKey}/${lotSlug(lot, lotIndex)}"><span>Xem chi tiết lô</span><span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        `;
+      }
+
+      function renderHomeLots() {
+        const grid = document.querySelector("#home-lot-grid");
+        if (!grid) return;
+        const cards = [];
+        Object.entries(projects).forEach(([projectKey, project]) => {
+          Object.entries(project.zones || {}).forEach(([zoneKey, zone]) => {
+            zone.lots.forEach((lot, lotIndex) => cards.push(lotListCard(projectKey, zoneKey, lotIndex)));
+          });
+        });
+        grid.innerHTML = cards.join("");
+        grid.closest("section").hidden = cards.length === 0;
       }
 
       function renderLotPage(projectKey, zoneKey, lotIndex) {
@@ -1111,6 +1140,7 @@
         }
       }
 
+      renderHomeLots();
       window.addEventListener("hashchange", renderRoute);
       renderRoute();
 
