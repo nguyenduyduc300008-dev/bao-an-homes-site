@@ -204,6 +204,7 @@
       .lot-card { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 30px; margin-bottom: 34px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; }
       .lot-main { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 9px; background: #efe7d6; }
       .lot-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+      .lot-thumbs[hidden] { display: none; }
       .lot-thumb { padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: 6px; background: none; cursor: pointer; }
       .lot-thumb[aria-pressed="true"] { border-color: var(--gold); }
       .lot-thumb img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
@@ -763,6 +764,18 @@
                     { src: "danera-a4-b22x-4.jpg", alt: "Đường nội khu có cây xanh và đèn chiếu sáng" },
                   ],
                 },
+                {
+                  code: "B2.24",
+                  number: "X",
+                  price: "",
+                  description: "Lô đất nền B2.24 (lô số X) thuộc phân khu A4, khu đô thị Danera Bay (Golden Hills), Tây Bắc Đà Nẵng. Hình ảnh thực tế cho thấy lô đất trống, mặt tiền đường bê tông nội khu có vỉa hè lát gạch, cây xanh và đèn chiếu sáng; xung quanh đã có nhà dân xây dựng, phía xa là dãy núi. Diện tích, hướng, giá và hồ sơ pháp lý vui lòng liên hệ Bảo An Homes để nhận thông tin chi tiết.",
+                  mapUrl: "https://goo.gl/maps/dwAVMSzJt5Sng5Rw8",
+                  mapEmbed: "https://maps.google.com/maps?q=Golden%20Hills%20City%2C%20Li%C3%AAn%20Chi%E1%BB%83u%2C%20%C4%90%C3%A0%20N%E1%BA%B5ng&z=15&output=embed",
+                  mapNote: "Bản đồ hiển thị khu vực dự án. Bấm nút để xem vị trí chính xác của lô trên Google Maps.",
+                  images: [
+                    { src: "danera-a4-b224-1.jpg", alt: "Lô đất B2.24 phân khu A4 nhìn từ mặt đường nội khu" },
+                  ],
+                },
               ],
             },
             a2: {
@@ -1052,7 +1065,7 @@
             <article class="lot-card">
               <div class="lot-gallery">
                 <img class="lot-main" src="${lot.images[0].src}" alt="${lot.images[0].alt}">
-                <div class="lot-thumbs">
+                <div class="lot-thumbs"${lot.images.length < 2 ? " hidden" : ""}>
                   ${lot.images.map((image, index) => `
                     <button class="lot-thumb" type="button" data-lot-image="${image.src}" data-lot-alt="${image.alt}" aria-pressed="${index === 0}" aria-label="Xem ảnh ${index + 1}">
                       <img src="${image.src}" alt="" loading="lazy">
