@@ -514,7 +514,7 @@
               <p class="hero-description">Bảo An Homes đồng hành cùng bạn khám phá dự án, cập nhật thông tin và tìm kiếm không gian sống phù hợp với hành trình riêng của mình.</p>
               <div class="hero-actions">
                 <a class="button-primary" href="#du-an">Khám phá dự án <span aria-hidden="true">→</span></a>
-                <a class="text-link" href="#tin-tuc">Đọc tin thị trường <span aria-hidden="true">↗</span></a>
+                <a class="text-link" href="#tin/goldenhills" data-news-open="goldenhills">Đọc tin thị trường <span aria-hidden="true">↗</span></a>
               </div>
               <div class="hero-proof">
                 <span class="proof-avatars" aria-hidden="true"><span>⌂</span><span>✿</span><span>♡</span></span>
@@ -1226,6 +1226,15 @@
         projectDetailPage.hidden = true;
         projectDetailPage.replaceChildren();
 
+        const newsRoute = window.location.hash.match(/^#tin\/([a-z0-9-]+)$/i);
+        if (newsRoute && hasOwn(newsDetails, newsRoute[1])) {
+          requestAnimationFrame(() => {
+            document.getElementById("tin-tuc")?.scrollIntoView();
+            if (!infoDialog.open) openInfo(newsDetails[newsRoute[1]]);
+          });
+          return;
+        }
+
         if (window.location.hash && window.location.hash !== "#") {
           requestAnimationFrame(() => {
             const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
@@ -1237,6 +1246,14 @@
       renderHomeLots();
       window.addEventListener("hashchange", renderRoute);
       renderRoute();
+
+      document.addEventListener("click", (event) => {
+        const trigger = event.target.closest("[data-news-open]");
+        if (!trigger || !hasOwn(newsDetails, trigger.dataset.newsOpen)) return;
+        event.preventDefault();
+        if (window.location.hash !== `#tin/${trigger.dataset.newsOpen}`) history.replaceState(null, "", `#tin/${trigger.dataset.newsOpen}`);
+        openInfo(newsDetails[trigger.dataset.newsOpen]);
+      });
 
       document.querySelector(".news-grid").addEventListener("click", (event) => {
         const button = event.target.closest("[data-news]");
