@@ -391,10 +391,10 @@
                 <span class="project-tag">Đô thị</span>
               </div>
               <div class="project-info">
-                <div class="project-location"><span aria-hidden="true">⌖</span> Hải Vân, Đà Nẵng</div>
+                <div class="project-location"><span aria-hidden="true">⌖</span> Phường Hải Vân, Đà Nẵng</div>
                 <h3 class="project-title">Vinhomes Hải Vân Bay</h3>
-                <p class="project-description">Cập nhật thông tin tổng quan và các dòng sản phẩm tại Vinhomes Hải Vân Bay.</p>
-                <div class="project-details"><span>Đô thị quy mô lớn</span><span>Đa dạng sản phẩm</span></div>
+                <p class="project-description">Khu đô thị khoảng 512 ha của Vinhomes dưới chân đèo Hải Vân, gồm biệt thự và nhà liền kề.</p>
+                <div class="project-details"><span>Khoảng 512 ha</span><span>4 phân khu</span></div>
                 <a class="project-link" href="#du-an/haivan" data-project-route="haivan"><span>Tìm hiểu dự án</span><span aria-hidden="true">→</span></a>
               </div>
             </article>
@@ -538,18 +538,36 @@
             { distance: "Khoảng 10 km", places: "Sân bay Đà Nẵng và Bà Nà Hills" },
             { distance: "Khoảng 15 km", places: "Cầu Rồng và khu vực Lăng Cô" },
           ],
+          source: { label: "Royaland · Golden Hills Đà Nẵng", url: "https://royaland.com.vn/du-an/du-an-golden-hills-da-nang.htm" },
         },
         haivan: {
           category: "Dự án đô thị",
           title: "Vinhomes Hải Vân Bay",
-          location: "Hải Vân, Đà Nẵng",
-          description: "Trang thông tin dự án Vinhomes Hải Vân Bay thuộc Bảo An Homes. Tìm hiểu các nội dung tổng quan và theo dõi cập nhật về dự án, sản phẩm tại khu vực Hải Vân.",
+          location: "Phường Hải Vân, Đà Nẵng",
+          description: "Vinhomes Hải Vân Bay (Làng Vân) là khu đô thị quy mô khoảng 512,16 ha dưới chân đèo Hải Vân, nằm trên hành lang du lịch Huế – Đà Nẵng – Hội An. Dự án gồm biệt thự đơn lập, biệt thự song lập và nhà liền kề.",
           image: "vinhomes-hai-van-bay-exterior.jpg",
           imageAlt: "Phối cảnh tổng thể Vinhomes Hải Vân Bay",
           tags: ["Tổng quan dự án", "Thông tin sản phẩm", "Cập nhật chính thức"],
+          overview: "Khoảng 512,16 ha · 4 phân khu · Khởi công 2025",
+          productSummary: "Biệt thự đơn lập, biệt thự song lập và nhà liền kề",
+          developer: "Công ty Cổ phần Vinhomes",
           sectors: [
-            { name: "Các phân khu", lots: ["Bạch Vân", "Đảo Ngọc", "Vinh Mây", "Tinh Vân"] },
+            { name: "Vịnh Mây", description: "Phong cách Malibu Hills, địa hình đồi với cao độ đất từ 4,8 m đến 187,5 m.", lots: ["Biệt thự đơn lập", "Nhà liền kề"] },
+            { name: "Đảo Ngọc", description: "Phong cách Costa Smeralda, dự kiến có khách sạn Vinpearl LegendLux.", lots: ["Biệt thự đơn lập", "Biệt thự song lập", "Nhà liền kề"] },
+            { name: "Bạch Vân", description: "Phong cách châu Á.", lots: ["Biệt thự đơn lập", "Biệt thự song lập", "Nhà liền kề"] },
+            { name: "Tinh Vân", description: "Thông tin phân khu đang được cập nhật.", lots: [] },
           ],
+          nearbyKicker: "Nội khu & kết nối",
+          nearbyTitle: "Tiện ích dự án",
+          nearby: [
+            { distance: "Vui chơi · ẩm thực", places: "VinWonders Hải Vân, Lifestyle Hub, làng ẩm thực ven suối Vịnh Mây và chợ Hải Vân Market" },
+            { distance: "Cảnh quan mặt nước", places: "Suối Ngọc Thạch dài khoảng 1,5 km, hồ Ngọc Trai, hồ Ánh Sao và phố đi bộ Emerald Boulevard khoảng 1,3 km" },
+            { distance: "Công viên", places: "Botanica Park khoảng 8 ha, Activia Park 1,2 ha cùng các công viên Pearl Garden, Palm Park, Sunlight Park" },
+            { distance: "Sức khỏe · cộng đồng", places: "Malibu Wellness Hub 1,6 ha (spa, phòng khám Vinmec, gym) và Oceania Clubhouse" },
+            { distance: "Giáo dục · lưu trú", places: "11 trường học thuộc hệ thống giáo dục Vingroup; khách sạn Vinpearl LegendLux dự kiến khai trương 11/2027" },
+            { distance: "Kết nối vùng", places: "Gần cảng Liên Chiểu và Khu thương mại tự do Đà Nẵng, trên trục du lịch Huế – Đà Nẵng – Hội An" },
+          ],
+          source: { label: "Vinhomes Market · Vinhomes Hải Vân Bay", url: "https://market.vinhomes.vn/du-an/vinhomes-hai-van-bay" },
         },
       };
 
@@ -622,14 +640,14 @@
                 </article>
               `).join("")}
             </div>
-            <p class="project-source">Thông tin tham khảo: <a href="https://royaland.com.vn/du-an/du-an-golden-hills-da-nang.htm" target="_blank" rel="noopener noreferrer">Royaland · Golden Hills Đà Nẵng</a>. Dữ liệu quy hoạch, khoảng cách và sản phẩm cần được xác nhận bằng tài liệu chính thức trước khi giao dịch.</p>
+            ${project.source ? `<p class="project-source">Thông tin tham khảo: <a href="${project.source.url}" target="_blank" rel="noopener noreferrer">${project.source.label}</a>. Dữ liệu quy hoạch, tiện ích và sản phẩm cần được xác nhận bằng tài liệu chính thức trước khi giao dịch.</p>` : ""}
           </section>
         ` : "";
         const nearbySection = project.nearby ? `
           <section class="nearby-section" aria-labelledby="nearby-title">
             <div class="product-catalog-header">
-              <p class="section-kicker">Kết nối khu vực</p>
-              <h2 class="section-title" id="nearby-title">Tiện ích lân cận</h2>
+              <p class="section-kicker">${project.nearbyKicker || "Kết nối khu vực"}</p>
+              <h2 class="section-title" id="nearby-title">${project.nearbyTitle || "Tiện ích lân cận"}</h2>
             </div>
             <div class="nearby-grid">
               ${project.nearby.map((item) => `<div class="nearby-item"><strong>${item.distance}</strong>${item.places}</div>`).join("")}
