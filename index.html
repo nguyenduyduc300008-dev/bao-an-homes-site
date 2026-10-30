@@ -222,6 +222,8 @@
       .lot-body { grid-column: 1 / -1; padding-top: 22px; border-top: 1px solid var(--line); }
       .lot-body h3 { margin: 0 0 10px; color: var(--gold-deep); font-size: 14px; }
       .lot-body p { margin: 0 0 22px; color: #5f6a62; font-size: 12px; line-height: 1.85; }
+      .lot-video { margin-bottom: 22px; }
+      .lot-video video { display: block; width: 100%; max-width: 360px; max-height: 640px; border-radius: 9px; background: #1d1a14; }
       .lot-map { overflow: hidden; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 9px; background: #efe7d6; }
       .lot-map iframe { display: block; width: 100%; height: 360px; border: 0; }
       .lot-map-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 7px; background: var(--gold-deep); color: white; font-size: 12px; font-weight: 700; text-decoration: none; }
@@ -745,6 +747,27 @@
                 },
               ],
             },
+            a2: {
+              code: "A2",
+              sector: "Phân khu A",
+              lots: [
+                {
+                  code: "",
+                  price: "",
+                  description: "Lô đất nền tại phân khu A2, khu đô thị Danera Bay (Golden Hills), Tây Bắc Đà Nẵng. Hình ảnh và video thực tế cho thấy lô đất trống nằm xen giữa các nhà đã xây dựng, mặt tiền đường bê tông nội khu có vỉa hè lát gạch và hàng cây xanh lớn. Mã lô, diện tích, hướng, giá và hồ sơ pháp lý vui lòng liên hệ Bảo An Homes để nhận thông tin chi tiết.",
+                  mapUrl: "https://goo.gl/maps/dwAVMSzJt5Sng5Rw8",
+                  mapEmbed: "https://maps.google.com/maps?q=Golden%20Hills%20City%2C%20Li%C3%AAn%20Chi%E1%BB%83u%2C%20%C4%90%C3%A0%20N%E1%BA%B5ng&z=15&output=embed",
+                  mapNote: "Bản đồ hiển thị khu vực dự án. Bấm nút để xem vị trí chính xác của lô trên Google Maps.",
+                  video: { src: "danera-a2-video.mp4", poster: "danera-a2-video-poster.jpg" },
+                  images: [
+                    { src: "danera-a2-1.jpg", alt: "Lô đất phân khu A2 nhìn từ mặt đường" },
+                    { src: "danera-a2-2.jpg", alt: "Lô đất phân khu A2 nằm cạnh các nhà đã xây dựng" },
+                    { src: "danera-a2-3.jpg", alt: "Tuyến đường nội khu có hàng cây xanh tại phân khu A2" },
+                    { src: "danera-a2-4.jpg", alt: "Đường bê tông nội khu dẫn vào lô đất phân khu A2" },
+                  ],
+                },
+              ],
+            },
           },
         },
         haivan: {
@@ -916,7 +939,10 @@
       function renderZonePage(projectKey, zoneKey) {
         const project = projects[projectKey];
         const zone = project.zones[zoneKey];
-        const lotCards = zone.lots.map((lot) => `
+        const lotCards = zone.lots.map((lot) => {
+          const lotName = lot.code ? `Lô ${lot.code}` : `Lô đất phân khu ${zone.code}`;
+          const chatText = `${project.title} – ${lot.code ? `lô ${lot.code} (phân khu ${zone.code})` : `lô đất phân khu ${zone.code}`}${lot.price ? `, giá ${lot.price}` : ""}`;
+          return `
           <article class="lot-card">
             <div class="lot-gallery">
               <img class="lot-main" src="${lot.images[0].src}" alt="${lot.images[0].alt}">
@@ -930,31 +956,39 @@
             </div>
             <div class="lot-info">
               <p class="lot-label">${project.title} · Phân khu ${zone.code}</p>
-              <h2 class="lot-code">Lô ${lot.code}</h2>
-              <p class="lot-price"><span>Giá bán</span><strong>${lot.price}</strong></p>
+              <h2 class="lot-code">${lotName}</h2>
+              <p class="lot-price"><span>Giá bán</span><strong>${lot.price || "Liên hệ"}</strong></p>
               <dl class="lot-facts">
                 <div><dt>Dự án</dt><dd>${project.title}</dd></div>
                 <div><dt>Phân khu</dt><dd>${zone.code} (${zone.sector})</dd></div>
-                <div><dt>Mã lô</dt><dd>${lot.code}</dd></div>
+                <div><dt>Mã lô</dt><dd>${lot.code || "Liên hệ để biết"}</dd></div>
                 <div><dt>Khu vực</dt><dd>${project.location}</dd></div>
               </dl>
               <div class="lot-actions">
-                <button class="button-primary" type="button" data-chat-project="${project.title} – lô ${lot.code} (phân khu ${zone.code}), giá ${lot.price}">Tư vấn lô này qua Zalo <span aria-hidden="true">→</span></button>
+                <button class="button-primary" type="button" data-chat-project="${chatText}">Tư vấn lô này qua Zalo <span aria-hidden="true">→</span></button>
                 <a class="lot-call" href="tel:0968333888">Gọi 0968.333.888</a>
               </div>
             </div>
             <div class="lot-body">
               <h3>Mô tả</h3>
               <p>${lot.description}</p>
+              ${lot.video ? `
+              <h3>Video thực tế</h3>
+              <div class="lot-video">
+                <video controls playsinline preload="metadata" poster="${lot.video.poster}">
+                  <source src="${lot.video.src}" type="video/mp4">
+                </video>
+              </div>` : ""}
               <h3>Vị trí trên bản đồ</h3>
               <div class="lot-map">
-                <iframe src="${lot.mapEmbed}" title="Bản đồ vị trí lô ${lot.code}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                <iframe src="${lot.mapEmbed}" title="Bản đồ vị trí ${lotName}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
               </div>
-              <a class="lot-map-link" href="${lot.mapUrl}" target="_blank" rel="noopener noreferrer">Mở vị trí lô ${lot.code} trên Google Maps <span aria-hidden="true">↗</span></a>
+              <a class="lot-map-link" href="${lot.mapUrl}" target="_blank" rel="noopener noreferrer">Mở vị trí ${lotName} trên Google Maps <span aria-hidden="true">↗</span></a>
               <p class="lot-map-note">${lot.mapNote}</p>
             </div>
           </article>
-        `).join("");
+        `;
+        }).join("");
 
         projectDetailPage.innerHTML = `
           <div class="container">
