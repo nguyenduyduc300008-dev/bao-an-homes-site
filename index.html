@@ -452,7 +452,7 @@
           <p class="auth-error" id="register-error" aria-live="polite"></p>
           <button class="auth-submit" type="submit">Tạo tài khoản</button>
         </form>
-        <p class="auth-help">Quên mật khẩu hoặc cần hỗ trợ? Nhắn <a href="https://zalo.me/0968333888" target="_blank" rel="noopener noreferrer">Zalo 0968.333.888</a></p>
+        <p class="auth-help">Số điện thoại của bạn được Bảo An Homes lưu lại để liên hệ tư vấn dự án.<br>Quên mật khẩu hoặc cần hỗ trợ? Nhắn <a href="https://zalo.me/0968333888" target="_blank" rel="noopener noreferrer">Zalo 0968.333.888</a></p>
       </div>
     </div>
     <div class="announcement">BẢO AN HOMES <span aria-hidden="true">·</span> KẾT NỐI GIÁ TRỊ, KIẾN TẠO THỊNH VƯỢNG</div>
@@ -1294,9 +1294,9 @@
         setAuthTab("login");
       }
 
-      function sendLead(phone) {
+      function sendLead(phone, action) {
         if (!LEAD_ENDPOINT) return;
-        const body = new URLSearchParams({ phone, time: new Date().toISOString(), page: location.href });
+        const body = new URLSearchParams({ phone, action, page: location.href });
         fetch(LEAD_ENDPOINT, { method: "POST", mode: "no-cors", body }).catch(() => {});
       }
 
@@ -1319,6 +1319,7 @@
           authLoginError.textContent = "Mật khẩu chưa đúng. Bạn thử lại nhé.";
           return;
         }
+        sendLead(phone, "login");
         unlockSite(phone);
       });
 
@@ -1345,7 +1346,7 @@
         }
         users[phone] = { hash: await hashPassword(phone, password), createdAt: new Date().toISOString() };
         if (!writeAuthStore(AUTH_USERS_KEY, users)) memoryUsers = users;
-        sendLead(phone);
+        sendLead(phone, "register");
         unlockSite(phone);
       });
 
