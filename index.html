@@ -165,8 +165,15 @@
       .sector-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
       .sector-card { padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: white; }
       .sector-card h3 { margin: 0 0 13px; color: var(--gold-deep); font-size: 13px; }
+      .sector-description { margin: 0 0 12px; color: #68766d; font-size: 10px; line-height: 1.7; }
       .sector-lots { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
       .sector-lots li { min-width: 42px; padding: 7px 9px; border-radius: 5px; background: #f6f0e4; color: #6f5a31; font-size: 10px; font-weight: 700; text-align: center; }
+      .nearby-section { margin: 0 0 32px; }
+      .nearby-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .nearby-item { padding: 13px 15px; border: 1px solid var(--line); border-radius: 7px; background: white; color: #68766d; font-size: 10px; line-height: 1.7; }
+      .nearby-item strong { display: block; margin-bottom: 3px; color: var(--gold-deep); font-size: 11px; }
+      .project-source { margin: 15px 0 0; color: var(--muted); font-size: 10px; line-height: 1.7; }
+      .project-source a { color: var(--gold-deep); font-weight: 700; }
       .detail-disclaimer { margin: 0 0 45px; padding: 15px 17px; border-left: 3px solid #bc984d; background: #f5efdf; color: #695b3f; font-size: 10px; line-height: 1.75; }
       .related-projects { padding: 45px 0; border-top: 1px solid var(--line); }
       .related-projects .section-title { margin-bottom: 22px; font-size: 32px; }
@@ -271,6 +278,7 @@
         .detail-fact strong { font-size: 9px; }
         .detail-fact span { font-size: 8px; }
         .sector-grid { grid-template-columns: 1fr; }
+        .nearby-grid { grid-template-columns: 1fr; }
         .product-catalog-header .section-title { font-size: 27px; }
         .related-projects .section-title { font-size: 27px; }
         .project-toolbar { align-items: flex-start; flex-direction: column; }
@@ -508,15 +516,27 @@
         danera: {
           category: "Dự án",
           title: "Danera Bay",
-          location: "Thông tin vị trí đang cập nhật",
-          description: "Khám phá Danera Bay trong danh mục dự án Bảo An Homes. Trang tập hợp thông tin giới thiệu và nội dung cập nhật để bạn có thêm cơ sở tìm hiểu trước khi trao đổi về sản phẩm.",
+          location: "Tây Bắc Đà Nẵng · Hòa Vang và Liên Chiểu",
+          description: "Danera Bay (Golden Hills) được giới thiệu là khu đô thị sinh thái quy mô khoảng 381 ha ở Tây Bắc Đà Nẵng, gần sông Cu Đê và biển Nam Ô. Khu đô thị quy hoạch nhiều dòng sản phẩm nhà ở và thương mại.",
           image: "danera-bay-exterior.jpg",
           imageAlt: "Phối cảnh tổng thể dự án Danera Bay",
           tags: ["Tổng quan dự án", "Thông tin sản phẩm", "Cập nhật chính thức"],
+          overview: "Khoảng 381 ha · Đô thị sinh thái",
+          productSummary: "Đất nền, shophouse, biệt thự, chung cư và thương mại",
+          developer: "Trung Nam Land",
           sectors: [
-            { name: "Phân khu A", lots: ["A1", "A2", "A3", "A4", "A5", "A6"] },
-            { name: "Phân khu B", lots: ["B1", "B2"] },
-            { name: "Phân khu C", lots: ["C1", "C2", "C3", "C4"] },
+            { name: "Phân khu A", description: "Đất nền liền kề và shophouse.", lots: ["A1", "A2", "A3", "A4", "A5", "A6"] },
+            { name: "Phân khu B", description: "Shophouse, chung cư và thương mại.", lots: ["B1", "B2"] },
+            { name: "Phân khu C", description: "Đất nền liền kề, đất nền biệt thự, shophouse và biệt thự.", lots: ["C1", "C2", "C3", "C4"] },
+            { name: "Phân khu D", description: "Biệt thự đảo đơn lập.", lots: [] },
+            { name: "Phân khu E", description: "Shophouse và hệ thống tiện ích cộng đồng.", lots: [] },
+          ],
+          nearby: [
+            { distance: "Khoảng 1 km", places: "Bãi biển Nam Ô" },
+            { distance: "Khoảng 3 km", places: "Cảng quốc tế Liên Chiểu, Khu công nghệ cao Đà Nẵng và khu vui chơi Mikazuki" },
+            { distance: "Khoảng 8 km", places: "Bến xe trung tâm Đà Nẵng" },
+            { distance: "Khoảng 10 km", places: "Sân bay Đà Nẵng và Bà Nà Hills" },
+            { distance: "Khoảng 15 km", places: "Cầu Rồng và khu vực Lăng Cô" },
           ],
         },
         haivan: {
@@ -597,9 +617,22 @@
               ${project.sectors.map((sector) => `
                 <article class="sector-card">
                   <h3>${sector.name}</h3>
+                  ${sector.description ? `<p class="sector-description">${sector.description}</p>` : ""}
                   <ul class="sector-lots">${sector.lots.map((lot) => `<li>${lot}</li>`).join("")}</ul>
                 </article>
               `).join("")}
+            </div>
+            <p class="project-source">Thông tin tham khảo: <a href="https://royaland.com.vn/du-an/du-an-golden-hills-da-nang.htm" target="_blank" rel="noopener noreferrer">Royaland · Golden Hills Đà Nẵng</a>. Dữ liệu quy hoạch, khoảng cách và sản phẩm cần được xác nhận bằng tài liệu chính thức trước khi giao dịch.</p>
+          </section>
+        ` : "";
+        const nearbySection = project.nearby ? `
+          <section class="nearby-section" aria-labelledby="nearby-title">
+            <div class="product-catalog-header">
+              <p class="section-kicker">Kết nối khu vực</p>
+              <h2 class="section-title" id="nearby-title">Tiện ích lân cận</h2>
+            </div>
+            <div class="nearby-grid">
+              ${project.nearby.map((item) => `<div class="nearby-item"><strong>${item.distance}</strong>${item.places}</div>`).join("")}
             </div>
           </section>
         ` : "";
@@ -628,11 +661,12 @@
                 </div>
               </div>
             </div>
+            ${nearbySection}
             ${productCatalog}
             <div class="detail-facts" aria-label="Nội dung trang dự án">
-              <div class="detail-fact"><strong>Tổng quan</strong><span>Thông tin giới thiệu dự án</span></div>
-              <div class="detail-fact"><strong>Sản phẩm</strong><span>${project.sectors ? "Xem danh mục sản phẩm bên dưới" : "Liên hệ để cập nhật danh mục"}</span></div>
-              <div class="detail-fact"><strong>Hồ sơ & tiến độ</strong><span>Xác nhận theo tài liệu mới nhất</span></div>
+              <div class="detail-fact"><strong>Tổng quan</strong><span>${project.overview || "Thông tin giới thiệu dự án"}</span></div>
+              <div class="detail-fact"><strong>Sản phẩm</strong><span>${project.sectors ? project.productSummary : "Liên hệ để cập nhật danh mục"}</span></div>
+              <div class="detail-fact"><strong>${project.developer ? "Chủ đầu tư" : "Hồ sơ & tiến độ"}</strong><span>${project.developer || "Xác nhận theo tài liệu mới nhất"}</span></div>
             </div>
             <p class="detail-disclaimer">Thông tin giới thiệu không thay thế hồ sơ chính thức. Vị trí chi tiết, pháp lý, quy hoạch, tiến độ, giá và chính sách cần được Bảo An Homes xác nhận với tài liệu cập nhật trước khi giao dịch.</p>
             <div class="related-projects">
