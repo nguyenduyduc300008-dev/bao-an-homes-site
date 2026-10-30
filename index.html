@@ -527,6 +527,9 @@
           image: "vinhomes-hai-van-bay-exterior.jpg",
           imageAlt: "Phối cảnh tổng thể Vinhomes Hải Vân Bay",
           tags: ["Tổng quan dự án", "Thông tin sản phẩm", "Cập nhật chính thức"],
+          sectors: [
+            { name: "Các phân khu", lots: ["Bạch Vân", "Đảo Ngọc", "Vinh Mây", "Tinh Vân"] },
+          ],
         },
       };
 
@@ -587,7 +590,7 @@
         const productCatalog = project.sectors ? `
           <section class="product-catalog" aria-labelledby="product-catalog-title">
             <div class="product-catalog-header">
-              <p class="section-kicker">Danera Bay</p>
+              <p class="section-kicker">${project.title}</p>
               <h2 class="section-title" id="product-catalog-title">Danh mục sản phẩm</h2>
             </div>
             <div class="sector-grid">
@@ -628,7 +631,7 @@
             ${productCatalog}
             <div class="detail-facts" aria-label="Nội dung trang dự án">
               <div class="detail-fact"><strong>Tổng quan</strong><span>Thông tin giới thiệu dự án</span></div>
-              <div class="detail-fact"><strong>Sản phẩm</strong><span>${project.sectors ? "Xem phân khu A, B, C bên dưới" : "Liên hệ để cập nhật danh mục"}</span></div>
+              <div class="detail-fact"><strong>Sản phẩm</strong><span>${project.sectors ? "Xem danh mục sản phẩm bên dưới" : "Liên hệ để cập nhật danh mục"}</span></div>
               <div class="detail-fact"><strong>Hồ sơ & tiến độ</strong><span>Xác nhận theo tài liệu mới nhất</span></div>
             </div>
             <p class="detail-disclaimer">Thông tin giới thiệu không thay thế hồ sơ chính thức. Vị trí chi tiết, pháp lý, quy hoạch, tiến độ, giá và chính sách cần được Bảo An Homes xác nhận với tài liệu cập nhật trước khi giao dịch.</p>
