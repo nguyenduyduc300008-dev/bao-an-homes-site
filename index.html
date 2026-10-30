@@ -53,6 +53,31 @@
       .main-nav { display: flex; align-items: center; gap: clamp(18px, 3vw, 37px); }
       .main-nav a { color: #52615a; font-size: 12px; font-weight: 600; text-decoration: none; transition: color .2s; }
       .main-nav a:hover { color: var(--gold-deep); }
+      .nav-logout { padding: 0; border: 0; background: none; color: #52615a; cursor: pointer; font-family: var(--sans); font-size: 12px; font-weight: 600; }
+      .nav-logout:hover { color: var(--gold-deep); }
+      .nav-logout[hidden] { display: none; }
+      html.auth-locked body > :not(#auth-gate) { display: none !important; }
+      .auth-gate { position: fixed; z-index: 60; inset: 0; display: none; overflow-y: auto; padding: 24px 16px; place-items: center; background: radial-gradient(circle at 20% 10%, #f3e6c4 0, transparent 45%), var(--paper); }
+      html.auth-locked .auth-gate { display: grid; }
+      .auth-card { width: min(410px, 100%); padding: 30px 28px 24px; border: 1px solid var(--line); border-radius: 14px; background: white; box-shadow: var(--shadow); }
+      .auth-logo { display: block; width: 132px; height: auto; margin: 0 auto 14px; }
+      .auth-slogan { margin: 0 0 20px; color: var(--gold-deep); font-size: 9px; font-weight: 800; letter-spacing: .14em; text-align: center; text-transform: uppercase; }
+      .auth-card h1 { max-width: none; margin: 0 0 6px; font-size: 26px; letter-spacing: -.02em; line-height: 1.25; text-align: center; }
+      .auth-intro { margin: 0 0 20px; color: var(--muted); font-size: 12px; line-height: 1.6; text-align: center; }
+      .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 18px; padding: 4px; border-radius: 9px; background: #f4eddd; }
+      .auth-tab { padding: 10px; border: 0; border-radius: 7px; background: transparent; color: #6f5a31; cursor: pointer; font-family: var(--sans); font-size: 12px; font-weight: 700; }
+      .auth-tab[aria-selected="true"] { background: white; box-shadow: 0 2px 8px rgb(75 54 18 / 12%); color: var(--gold-deep); }
+      .auth-form { display: grid; gap: 13px; }
+      .auth-form[hidden] { display: none; }
+      .auth-field { display: grid; gap: 6px; }
+      .auth-field label { color: var(--ink); font-size: 11px; font-weight: 700; }
+      .auth-field input { width: 100%; padding: 12px 13px; border: 1px solid #ddd2bb; border-radius: 8px; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 14px; }
+      .auth-field input:focus { border-color: var(--gold); outline: 2px solid rgb(154 112 33 / 18%); }
+      .auth-error { min-height: 16px; margin: 0; color: #a33a24; font-size: 11px; line-height: 1.5; }
+      .auth-submit { width: 100%; padding: 13px; border: 0; border-radius: 8px; background: var(--gold-metal); color: white; cursor: pointer; font-family: var(--sans); font-size: 13px; font-weight: 700; }
+      .auth-submit:hover { background: var(--gold-deep); }
+      .auth-help { margin: 16px 0 0; color: var(--muted); font-size: 11px; line-height: 1.6; text-align: center; }
+      .auth-help a { color: var(--gold-deep); font-weight: 700; }
       .header-cta, .button-primary {
         display: inline-flex;
         min-height: 43px;
@@ -287,6 +312,7 @@
         .main-nav { position: fixed; inset: 68px 0 auto; display: none; align-items: stretch; gap: 0; padding: 12px 24px 20px; border-bottom: 1px solid var(--line); background: var(--paper); box-shadow: 0 12px 22px rgb(35 48 39 / 8%); }
         .main-nav.is-open { display: flex; flex-direction: column; }
         .main-nav a { padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 12px; }
+        .nav-logout { padding: 13px 0; text-align: left; }
         .hero { padding: 20px 0 31px; }
         .hero-panel { min-height: 685px; align-content: start; grid-template-columns: 1fr; }
         .hero-copy { max-width: none; padding: 40px 28px 20px; }
@@ -379,8 +405,56 @@
         *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
       }
     </style>
+    <script>
+      try {
+        if (!localStorage.getItem("baoan_session")) document.documentElement.classList.add("auth-locked");
+      } catch (error) {
+        document.documentElement.classList.add("auth-locked");
+      }
+    </script>
   </head>
   <body>
+    <div class="auth-gate" id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="auth-title">
+      <div class="auth-card">
+        <img class="auth-logo" src="logo-bao-an-homes.jpg" alt="Bảo An Homes">
+        <p class="auth-slogan">Kết nối giá trị, kiến tạo thịnh vượng</p>
+        <h1 id="auth-title">Chào mừng bạn</h1>
+        <p class="auth-intro">Đăng nhập bằng số điện thoại để xem thông tin dự án và các lô đất đang mở bán.</p>
+        <div class="auth-tabs" role="tablist" aria-label="Đăng nhập hoặc đăng ký">
+          <button class="auth-tab" type="button" role="tab" id="auth-tab-login" aria-controls="auth-login" aria-selected="true">Đăng nhập</button>
+          <button class="auth-tab" type="button" role="tab" id="auth-tab-register" aria-controls="auth-register" aria-selected="false">Đăng ký</button>
+        </div>
+        <form class="auth-form" id="auth-login" role="tabpanel" aria-labelledby="auth-tab-login" novalidate>
+          <div class="auth-field">
+            <label for="login-phone">Số điện thoại</label>
+            <input id="login-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="VD: 0968 333 888" required>
+          </div>
+          <div class="auth-field">
+            <label for="login-password">Mật khẩu</label>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required>
+          </div>
+          <p class="auth-error" id="login-error" aria-live="polite"></p>
+          <button class="auth-submit" type="submit">Đăng nhập</button>
+        </form>
+        <form class="auth-form" id="auth-register" role="tabpanel" aria-labelledby="auth-tab-register" novalidate hidden>
+          <div class="auth-field">
+            <label for="register-phone">Số điện thoại</label>
+            <input id="register-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="VD: 0968 333 888" required>
+          </div>
+          <div class="auth-field">
+            <label for="register-password">Mật khẩu (ít nhất 6 ký tự)</label>
+            <input id="register-password" name="password" type="password" autocomplete="new-password" minlength="6" required>
+          </div>
+          <div class="auth-field">
+            <label for="register-confirm">Nhập lại mật khẩu</label>
+            <input id="register-confirm" name="confirm" type="password" autocomplete="new-password" required>
+          </div>
+          <p class="auth-error" id="register-error" aria-live="polite"></p>
+          <button class="auth-submit" type="submit">Tạo tài khoản</button>
+        </form>
+        <p class="auth-help">Quên mật khẩu hoặc cần hỗ trợ? Nhắn <a href="https://zalo.me/0968333888" target="_blank" rel="noopener noreferrer">Zalo 0968.333.888</a></p>
+      </div>
+    </div>
     <div class="announcement">BẢO AN HOMES <span aria-hidden="true">·</span> KẾT NỐI GIÁ TRỊ, KIẾN TẠO THỊNH VƯỢNG</div>
     <header class="site-header">
       <div class="container header-inner">
@@ -392,6 +466,7 @@
           <a href="#du-an">Dự án</a>
           <a href="#tin-tuc">Tin tức</a>
           <a href="#ve-chung-toi">Về chúng tôi</a>
+          <button class="nav-logout" type="button" id="nav-logout" hidden>Đăng xuất</button>
         </nav>
         <a class="header-cta" href="#lien-he">Kết nối với chúng tôi <span aria-hidden="true">↗</span></a>
         <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="main-nav">
@@ -1132,6 +1207,156 @@
         }
         if (event.target.closest("[data-chat-open]")) openChat();
       });
+
+      // Đăng nhập đơn giản: tài khoản lưu trên trình duyệt của khách (localStorage), không có máy chủ.
+      // Muốn nhận danh sách số điện thoại đăng ký, điền địa chỉ nhận dữ liệu (VD: Google Apps Script) vào LEAD_ENDPOINT.
+      const LEAD_ENDPOINT = "";
+      const AUTH_USERS_KEY = "baoan_users";
+      const AUTH_SESSION_KEY = "baoan_session";
+      const authLoginForm = document.querySelector("#auth-login");
+      const authRegisterForm = document.querySelector("#auth-register");
+      const authLoginError = document.querySelector("#login-error");
+      const authRegisterError = document.querySelector("#register-error");
+      const navLogout = document.querySelector("#nav-logout");
+      let memoryUsers = {};
+
+      function readAuthStore(key, fallback) {
+        try {
+          const value = localStorage.getItem(key);
+          return value ? JSON.parse(value) : fallback;
+        } catch (error) {
+          return fallback;
+        }
+      }
+
+      function writeAuthStore(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }
+
+      function getAuthUsers() {
+        return { ...memoryUsers, ...readAuthStore(AUTH_USERS_KEY, {}) };
+      }
+
+      function normalizePhone(value) {
+        let phone = value.replace(/[^\d+]/g, "");
+        if (phone.startsWith("+84")) phone = `0${phone.slice(3)}`;
+        else if (phone.startsWith("84") && phone.length === 11) phone = `0${phone.slice(2)}`;
+        return /^0[35789]\d{8}$/.test(phone) ? phone : null;
+      }
+
+      async function hashPassword(phone, password) {
+        const text = `baoan:${phone}:${password}`;
+        if (window.crypto?.subtle) {
+          const buffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+          return Array.from(new Uint8Array(buffer), (byte) => byte.toString(16).padStart(2, "0")).join("");
+        }
+        let hash = 2166136261;
+        for (const char of text) {
+          hash ^= char.codePointAt(0);
+          hash = Math.imul(hash, 16777619);
+        }
+        return `f${(hash >>> 0).toString(16)}`;
+      }
+
+      function setAuthTab(tab) {
+        const isLogin = tab === "login";
+        document.querySelector("#auth-tab-login").setAttribute("aria-selected", String(isLogin));
+        document.querySelector("#auth-tab-register").setAttribute("aria-selected", String(!isLogin));
+        authLoginForm.hidden = !isLogin;
+        authRegisterForm.hidden = isLogin;
+        authLoginError.textContent = "";
+        authRegisterError.textContent = "";
+        (isLogin ? authLoginForm : authRegisterForm).querySelector("input").focus();
+      }
+
+      function unlockSite(phone) {
+        writeAuthStore(AUTH_SESSION_KEY, { phone, at: Date.now() });
+        document.documentElement.classList.remove("auth-locked");
+        navLogout.hidden = false;
+        navLogout.title = `Đang đăng nhập: ${phone}`;
+        authLoginForm.reset();
+        authRegisterForm.reset();
+      }
+
+      function lockSite() {
+        try { localStorage.removeItem(AUTH_SESSION_KEY); } catch (error) { /* ignore */ }
+        document.documentElement.classList.add("auth-locked");
+        navLogout.hidden = true;
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Mở menu");
+        mainNav.classList.remove("is-open");
+        document.body.classList.remove("menu-open");
+        setAuthTab("login");
+      }
+
+      function sendLead(phone) {
+        if (!LEAD_ENDPOINT) return;
+        const body = new URLSearchParams({ phone, time: new Date().toISOString(), page: location.href });
+        fetch(LEAD_ENDPOINT, { method: "POST", mode: "no-cors", body }).catch(() => {});
+      }
+
+      document.querySelector("#auth-tab-login").addEventListener("click", () => setAuthTab("login"));
+      document.querySelector("#auth-tab-register").addEventListener("click", () => setAuthTab("register"));
+
+      authLoginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const phone = normalizePhone(authLoginForm.phone.value);
+        if (!phone) {
+          authLoginError.textContent = "Số điện thoại chưa đúng (10 số, bắt đầu bằng 0).";
+          return;
+        }
+        const user = getAuthUsers()[phone];
+        if (!user) {
+          authLoginError.textContent = "Số này chưa có tài khoản trên thiết bị này. Bạn hãy chọn “Đăng ký” để tạo tài khoản.";
+          return;
+        }
+        if (user.hash !== await hashPassword(phone, authLoginForm.password.value)) {
+          authLoginError.textContent = "Mật khẩu chưa đúng. Bạn thử lại nhé.";
+          return;
+        }
+        unlockSite(phone);
+      });
+
+      authRegisterForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const phone = normalizePhone(authRegisterForm.phone.value);
+        const password = authRegisterForm.password.value;
+        if (!phone) {
+          authRegisterError.textContent = "Số điện thoại chưa đúng (10 số, bắt đầu bằng 0).";
+          return;
+        }
+        if (password.length < 6) {
+          authRegisterError.textContent = "Mật khẩu cần ít nhất 6 ký tự.";
+          return;
+        }
+        if (password !== authRegisterForm.confirm.value) {
+          authRegisterError.textContent = "Hai mật khẩu chưa khớp nhau.";
+          return;
+        }
+        const users = getAuthUsers();
+        if (users[phone]) {
+          authRegisterError.textContent = "Số này đã đăng ký. Bạn hãy chọn “Đăng nhập”.";
+          return;
+        }
+        users[phone] = { hash: await hashPassword(phone, password), createdAt: new Date().toISOString() };
+        if (!writeAuthStore(AUTH_USERS_KEY, users)) memoryUsers = users;
+        sendLead(phone);
+        unlockSite(phone);
+      });
+
+      navLogout.addEventListener("click", lockSite);
+
+      const authSession = readAuthStore(AUTH_SESSION_KEY, null);
+      if (authSession?.phone && getAuthUsers()[authSession.phone]) {
+        unlockSite(authSession.phone);
+      } else {
+        lockSite();
+      }
 
       document.querySelector("#current-year").textContent = new Date().getFullYear();
     </script>
