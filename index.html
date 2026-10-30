@@ -253,7 +253,8 @@
       .related-projects .section-title { margin-bottom: 22px; font-size: 32px; }
 
       .editorial-section { background: #f5f0e5; }
-      .news-grid { display: grid; grid-template-columns: 1.24fr 1fr 1fr; gap: 18px; }
+      .news-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+      .news-cover--banner img { object-position: center bottom; }
       .news-card { overflow: hidden; border: 1px solid rgb(207 190 151 / 55%); border-radius: 9px; background: white; }
       .news-cover { position: relative; height: 185px; overflow: hidden; background: #e8dfcb; }
       .news-card:first-child .news-cover { height: 222px; }
@@ -266,6 +267,23 @@
       .news-excerpt { margin-bottom: 14px; color: #77827a; font-size: 11px; line-height: 1.75; }
       .news-read { padding: 0; border: 0; background: none; color: var(--gold-deep); cursor: pointer; font-size: 10px; font-weight: 800; }
       .news-read:hover { text-decoration: underline; text-underline-offset: 4px; }
+      a.news-read { display: inline-block; text-decoration: none; }
+      .article-page { max-width: 820px; }
+      .article-header { padding: 6px 0 18px; }
+      .article-header .section-title { margin-bottom: 10px; }
+      .article-meta { margin: 0; color: var(--muted); font-size: 12px; }
+      .article-cover { display: block; width: 100%; height: auto; margin: 0 0 28px; border-radius: 12px; }
+      .article-body { margin-bottom: 30px; color: #3f4741; font-size: 15px; line-height: 1.85; }
+      .article-body h2 { margin: 34px 0 12px; color: var(--gold-deep); font-family: var(--serif); font-size: 25px; font-weight: 500; line-height: 1.3; }
+      .article-body p { margin: 0 0 14px; }
+      .article-body ul, .article-body ol { margin: 0 0 16px; padding-left: 22px; }
+      .article-body li { margin-bottom: 8px; }
+      .article-body a { color: var(--gold-deep); font-weight: 600; }
+      .article-table { overflow-x: auto; margin: 6px 0 12px; border: 1px solid var(--line); border-radius: 9px; background: white; }
+      .article-table table { width: 100%; min-width: 520px; border-collapse: collapse; font-size: 13px; }
+      .article-table th, .article-table td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+      .article-table th { background: #f6efe0; color: var(--gold-deep); font-weight: 700; }
+      .article-table tr:last-child td { border-bottom: 0; }
       .news-card.is-featured { display: grid; grid-column: 1 / -1; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
       .news-card.is-featured .news-cover { height: 100%; min-height: 270px; }
       .news-card.is-featured .news-content { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 28px; }
@@ -610,21 +628,12 @@
               </div>
             </article>
             <article class="news-card">
-              <div class="news-cover"><img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?auto=format&amp;fit=crop&amp;w=1000&amp;q=80" alt="Đường nét kiến trúc thành thị" loading="lazy"><span class="news-category">Thị trường</span></div>
+              <div class="news-cover news-cover--banner"><img src="news-tieu-chi-mua-dat.jpg" alt="Minh hoạ lô đất được đánh dấu cạnh con đường dẫn vào thành phố, nhãn Kinh nghiệm" loading="lazy"></div>
               <div class="news-content">
-                <p class="news-date">Góc nhìn thị trường</p>
-                <h3 class="news-title">Đà Nẵng qua lăng kính của người tìm nơi an cư</h3>
-                <p class="news-excerpt">Những câu hỏi nên đặt ra khi tìm hiểu khu vực sống, tiện ích và kết nối đô thị.</p>
-                <button class="news-read" type="button" data-news="danang">Đọc bài viết <span aria-hidden="true">→</span></button>
-              </div>
-            </article>
-            <article class="news-card">
-              <div class="news-cover"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&amp;fit=crop&amp;w=850&amp;q=80" alt="Không gian sống ấm cúng và gần gũi thiên nhiên" loading="lazy"><span class="news-category">Cẩm nang</span></div>
-              <div class="news-content">
-                <p class="news-date">Chọn nhà thông thái</p>
-                <h3 class="news-title">5 điều nên cân nhắc trước khi chọn một ngôi nhà</h3>
-                <p class="news-excerpt">Nhu cầu, ngân sách, pháp lý và kế hoạch dài hạn — những điều cần tìm hiểu.</p>
-                <button class="news-read" type="button" data-news="home">Đọc bài viết <span aria-hidden="true">→</span></button>
+                <p class="news-date">31/10/2026 · Duy Đức</p>
+                <h3 class="news-title">Tiêu chí khi mua một lô đất</h3>
+                <p class="news-excerpt">Pháp lý, vị trí, thửa đất, môi trường, giá, mục đích và cách giao dịch an toàn: kiểm tra theo đúng thứ tự trước khi xuống tiền.</p>
+                <a class="news-read" href="#tin/tieu-chi-mua-dat">Đọc bài viết <span aria-hidden="true">→</span></a>
               </div>
             </article>
             <article class="news-card">
@@ -698,6 +707,137 @@
         </div>
       </div>
     </footer>
+
+    <template id="article-tieu-chi-mua-dat">
+<p>Khi mua đất, hãy kiểm tra theo thứ tự: pháp lý trước, rồi đến vị trí, thửa đất, môi trường xung quanh, giá, mục đích mua và cách giao dịch. Pháp lý đứng đầu vì nếu pháp lý có vấn đề thì vị trí hay giá có tốt đến đâu cũng không cứu được.</p>
+<h2>1. Pháp lý (kiểm tra trước khi đặt cọc)</h2>
+<p><strong>Sổ đỏ (Giấy chứng nhận)</strong></p>
+<ul>
+<li>Phải có sổ, và là sổ thật. Đừng chỉ xem bản photo. Có thể mang sổ đến Văn phòng đăng ký đất đai để xác minh thật hay giả (<a href="https://hethongphapluat.com/phap-luat/node/40233" target="_blank" rel="noopener noreferrer">nguồn</a>).</li>
+<li>Đối chiếu tên chủ, số thửa, tờ bản đồ, diện tích và loại đất. Đất ở (ONT/ODT) khác hẳn đất nông nghiệp hay đất trồng cây lâu năm (CLN). Đọc kỹ cả trang ghi chú biến động.</li>
+<li>Xem thời hạn sử dụng đất. Khi nhận chuyển nhượng đất có thời hạn, bạn chỉ được dùng phần thời gian còn lại (<a href="https://thuvienphapluat.vn/phap-luat-nha-dat/nhan-chuyen-nhuong-quyen-su-dung-dat-thi-co-thoi-han-su-dung-dat-la-bao-lau-5129.html" target="_blank" rel="noopener noreferrer">nguồn</a>).</li>
+</ul>
+<p><strong>Điều kiện được phép chuyển nhượng (Điều 45 Luật Đất đai 2024)</strong></p>
+<ul>
+<li>Đất không có tranh chấp, không bị kê biên để thi hành án, còn thời hạn sử dụng. Luật 2024 bổ sung thêm điều kiện: quyền sử dụng đất không bị áp dụng biện pháp khẩn cấp tạm thời (<a href="https://lsvn.vn/quy-dinh-moi-nhat-ve-dieu-kien-sang-ten-giay-chung-nhan-quyen-su-dung-dat-1712229034-a142476.html" target="_blank" rel="noopener noreferrer">nguồn</a>).</li>
+<li>Kiểm tra xem sổ có đang thế chấp ngân hàng không.</li>
+<li>Với đất nền dự án: khi chủ đầu tư chuyển nhượng đất đã có hạ tầng, ngoài điều kiện chung còn phải đáp ứng thêm điều kiện khác (<a href="https://vov.vn/van-hoa/van-hoc/luat-dat-dai-2024-dieu-kien-chuyen-nhuong-va-gop-von-bang-quyen-su-dung-dat-post1185932.vov" target="_blank" rel="noopener noreferrer">nguồn</a>). Cần xem dự án đã được phép bán nền chưa và từng lô đã có sổ riêng chưa.</li>
+</ul>
+<p><strong>Người bán</strong></p>
+<ul>
+<li>Người ký phải là đúng chủ. Nếu đất là tài sản chung của vợ chồng, đồng sở hữu hay hộ gia đình thì cần đủ chữ ký của tất cả những người có tên.</li>
+<li>Cẩn thận với ủy quyền nhiều lớp và người môi giới tự xưng là chủ.</li>
+</ul>
+<p><strong>Quy hoạch</strong></p>
+<ul>
+<li>Hỏi thông tin quy hoạch tại UBND xã/phường hoặc chi nhánh Văn phòng đăng ký đất đai. Cần biết lô đất có nằm trong quy hoạch đường, công viên, khu thu hồi hay không, và có dính lộ giới hoặc hành lang an toàn (điện cao thế, sông, đường) không.</li>
+<li>Hỏi luôn các chỉ tiêu xây dựng: được xây mấy tầng, mật độ bao nhiêu, diện tích tối thiểu để tách thửa.</li>
+<li>Hợp đồng chuyển nhượng nên công chứng và ghi rõ tình trạng quy hoạch để tránh tranh chấp sau này (<a href="https://congtyluatacc.vn/?p=137809" target="_blank" rel="noopener noreferrer">nguồn</a>).</li>
+</ul>
+<h2>2. Vị trí và hạ tầng</h2>
+<ul>
+<li>Đường vào rộng bao nhiêu, ô tô có vào được không, đất mặt tiền hay trong hẻm.</li>
+<li>Khoảng cách tới trường học, chợ, bệnh viện, nơi làm việc.</li>
+<li>Đã có điện, nước, thoát nước chưa. Khu này có hay bị ngập không (nên đến xem vào ngày mưa).</li>
+<li>Sắp tới có hạ tầng mới (đường, cầu, khu công nghiệp) không. Đây là yếu tố chính kéo giá lên.</li>
+</ul>
+<h2>3. Đặc điểm của thửa đất</h2>
+<ul>
+<li><strong>Hình dạng:</strong> đất vuông vức thì dễ xây và dễ bán lại. Đất méo, tóp hậu thì khó dùng hơn.</li>
+<li><strong>Kích thước:</strong> mặt tiền rộng bao nhiêu, chiều sâu bao nhiêu, có đủ cho mục đích xây dựng của bạn không.</li>
+<li><strong>Nền đất:</strong> cao hay thấp hơn mặt đường, có phải ao hồ được lấp lại không (dễ bị lún, tốn tiền gia cố móng).</li>
+<li><strong>Mốc giới:</strong> cắm mốc thực tế phải khớp với sổ. Nên thuê đo đạc lại và hỏi hàng xóm giáp ranh xem có tranh chấp ranh giới không.</li>
+<li><strong>Hướng đất:</strong> nếu bạn quan tâm phong thủy hoặc hướng nắng gió.</li>
+</ul>
+<h2>4. Môi trường xung quanh</h2>
+<ul>
+<li>Tránh đất gần nghĩa trang, bãi rác, nhà máy gây ô nhiễm, trạm biến áp hay đường dây cao thế.</li>
+<li>Tìm hiểu an ninh và cộng đồng dân cư. Đến xem vào nhiều khung giờ khác nhau, cả ban đêm.</li>
+</ul>
+<h2>5. Giá và tổng chi phí</h2>
+<ul>
+<li>So sánh với giá giao dịch thật trong khu vực, không chỉ giá rao trên mạng. Giá rẻ bất thường thường là có vấn đề.</li>
+<li>Nếu vay ngân hàng thì phải chắc khoản trả hàng tháng nằm trong khả năng của bạn.</li>
+<li>Thanh khoản: sau này cần bán lại thì có dễ bán không.</li>
+</ul>
+<p>Tính đủ các chi phí đi kèm giá đất. Bên nào nộp có thể thỏa thuận khác.</p>
+<div class="article-table"><table>
+
+<thead>
+<tr>
+<th>Khoản</th>
+<th>Mức</th>
+<th>Thường do ai nộp</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lệ phí trước bạ</td>
+<td>0,5% giá tính lệ phí</td>
+<td>Người mua</td>
+</tr>
+<tr>
+<td>Thuế thu nhập cá nhân</td>
+<td>2% giá chuyển nhượng</td>
+<td>Người bán</td>
+</tr>
+<tr>
+<td>Phí công chứng</td>
+<td>Theo biểu phí công chứng</td>
+<td>Người mua</td>
+</tr>
+<tr>
+<td>Phí đo đạc</td>
+<td>Tùy đơn vị đo đạc</td>
+<td>Thỏa thuận</td>
+</tr>
+<tr>
+<td>Tiền chuyển mục đích lên đất ở (nếu mua đất nông nghiệp)</td>
+<td>Có thể rất lớn</td>
+<td>Người sử dụng đất</td>
+</tr>
+</tbody>
+</table></div>
+<p>Nguồn: <a href="https://aztax.com.vn/cac-loai-thue-phi-khi-mua-ban-nha-dat/" target="_blank" rel="noopener noreferrer">AZTAX</a>, <a href="https://thuviennhadat.vn/phap-ly-nha-dat/tong-hop-cac-dieu-kien-mua-ban-nha-dat-moi-nhat-nam-2026-729846.html" target="_blank" rel="noopener noreferrer">Thư viện Nhà đất</a>.</p>
+<h2>6. Mục đích mua</h2>
+<ul>
+<li><strong>Mua để ở:</strong> ưu tiên tiện ích, an ninh, đường đi lại.</li>
+<li><strong>Mua để đầu tư:</strong> ưu tiên tiềm năng tăng giá, thanh khoản, thời gian định giữ và khả năng cho thuê. Đừng chạy theo đám đông khi đất đang "sốt".</li>
+</ul>
+<h2>7. Giao dịch an toàn</h2>
+<ol type="1">
+<li><strong>Đặt cọc:</strong> chỉ đặt sau khi đã kiểm tra pháp lý. Hợp đồng cọc ghi rõ số tiền, thời hạn và mức phạt cọc. Đặt cọc vừa phải.</li>
+<li><strong>Công chứng và thanh toán:</strong> hợp đồng chuyển nhượng phải công chứng. Thanh toán qua ngân hàng và giữ lại chứng từ.</li>
+<li><strong>Ghi đúng giá thật trên hợp đồng:</strong> từ 01/07/2026, các quy định mới của Luật Quản lý thuế 2025 bắt đầu áp dụng. Cơ quan thuế chú trọng bản chất giao dịch thực tế, hồ sơ khai giá thấp bất thường dễ bị kiểm tra và ấn định lại thuế (<a href="https://www.dnse.com.vn/hoc/thue-chuyen-nhuong-bat-dong-san" target="_blank" rel="noopener noreferrer">nguồn</a>). Nếu giá trên hợp đồng thấp hơn bảng giá đất của UBND tỉnh, thuế sẽ tính theo bảng giá (<a href="https://accgroup.vn/cac-loai-thue-phai-dong-khi-mua-ban-nha-dat" target="_blank" rel="noopener noreferrer">nguồn</a>).</li>
+<li><strong>Sang tên đúng hạn:</strong> phải đăng ký biến động đất đai trong vòng 30 ngày kể từ ngày có biến động (<a href="https://luatvietnam.vn/dat-dai-nha-o/chuyen-quyen-su-dung-dat-la-gi-567-32735-article.html" target="_blank" rel="noopener noreferrer">nguồn</a>).</li>
+</ol>
+<p>Không mua đất chưa có sổ, mua bằng giấy tay hay chỉ có vi bằng. Chuyển nhượng đất không đủ điều kiện (đặc biệt là chưa có sổ đỏ) có thể bị phạt theo Nghị định 123/2024/NĐ-CP (<a href="https://hethongphapluat.com/phap-luat/node/40081/amp" target="_blank" rel="noopener noreferrer">nguồn</a>).</p>
+<h2>Dấu hiệu nên dừng lại ngay</h2>
+<p>Gặp một trong các dấu hiệu sau thì nên dừng giao dịch:</p>
+<ul>
+<li>Giá rẻ hơn hẳn khu vực.</li>
+<li>Bị hối thúc đặt cọc gấp.</li>
+<li>Người bán chỉ đưa sổ photo.</li>
+<li>Người ký không phải chủ trên sổ.</li>
+<li>Đất phân lô tự phát chưa tách sổ.</li>
+<li>Người bán né tránh khi bạn đề nghị ra công chứng hoặc đi kiểm tra quy hoạch.</li>
+</ul>
+<h2>Lưu ý và nguồn tham khảo</h2>
+<p>Tài liệu này không thay cho tư vấn pháp lý. Với giao dịch lớn, nên nhờ công chứng viên hoặc luật sư rà hồ sơ trước khi xuống tiền.</p>
+<ul>
+<li><a href="https://lsvn.vn/quy-dinh-moi-nhat-ve-dieu-kien-sang-ten-giay-chung-nhan-quyen-su-dung-dat-1712229034-a142476.html" target="_blank" rel="noopener noreferrer">Quy định mới nhất về điều kiện sang tên GCN – LSVN</a></li>
+<li><a href="https://vov.vn/van-hoa/van-hoc/luat-dat-dai-2024-dieu-kien-chuyen-nhuong-va-gop-von-bang-quyen-su-dung-dat-post1185932.vov" target="_blank" rel="noopener noreferrer">Luật Đất đai 2024: Điều kiện chuyển nhượng – VOV</a></li>
+<li><a href="https://thuvienphapluat.vn/phap-luat-nha-dat/nhan-chuyen-nhuong-quyen-su-dung-dat-thi-co-thoi-han-su-dung-dat-la-bao-lau-5129.html" target="_blank" rel="noopener noreferrer">Thời hạn sử dụng đất khi nhận chuyển nhượng – Thư viện Pháp luật</a></li>
+<li><a href="https://luatvietnam.vn/dat-dai-nha-o/chuyen-quyen-su-dung-dat-la-gi-567-32735-article.html" target="_blank" rel="noopener noreferrer">Chuyển quyền sử dụng đất có hiệu lực khi nào – LuatVietnam</a></li>
+<li><a href="https://thuviennhadat.vn/phap-ly-nha-dat/tong-hop-cac-dieu-kien-mua-ban-nha-dat-moi-nhat-nam-2026-729846.html" target="_blank" rel="noopener noreferrer">Tổng hợp điều kiện mua bán nhà đất 2026 – Thư viện Nhà đất</a></li>
+<li><a href="https://aztax.com.vn/cac-loai-thue-phi-khi-mua-ban-nha-dat/" target="_blank" rel="noopener noreferrer">Thuế phí khi mua bán nhà đất 2026 – AZTAX</a></li>
+<li><a href="https://www.dnse.com.vn/hoc/thue-chuyen-nhuong-bat-dong-san" target="_blank" rel="noopener noreferrer">Thuế chuyển nhượng BĐS 2026 – DNSE</a></li>
+<li><a href="https://accgroup.vn/cac-loai-thue-phai-dong-khi-mua-ban-nha-dat" target="_blank" rel="noopener noreferrer">Các loại thuế khi mua bán nhà đất – ACC</a></li>
+<li><a href="https://congtyluatacc.vn/?p=137809" target="_blank" rel="noopener noreferrer">Kiểm tra quy hoạch trước khi mua – Luật ACC</a></li>
+<li><a href="https://hethongphapluat.com/phap-luat/node/40081/amp" target="_blank" rel="noopener noreferrer">Mua đất không sổ đỏ năm 2026 – Hệ thống pháp luật</a></li>
+<li><a href="https://hethongphapluat.com/phap-luat/node/40233" target="_blank" rel="noopener noreferrer">6 lưu ý khi mua đất – Hệ thống pháp luật</a></li>
+</ul>
+    </template>
 
     <dialog id="info-dialog" aria-labelledby="modal-title">
       <article class="modal-content">
@@ -877,15 +1017,13 @@
           source: { label: "Báo Điện tử Chính phủ: Tái khởi động dự án Golden Hills", url: "https://baochinhphu.vn/tai-khoi-dong-du-an-golden-hills-dua-nguon-luc-tro-lai-phuc-vu-phat-trien-10226100317500548.htm" },
           link: { label: "Xem dự án Danera Bay (Golden Hills)", href: "#du-an/danera" },
         },
-        danang: {
-          eyebrow: "Góc nhìn · Thị trường",
-          title: "Đà Nẵng qua lăng kính của người tìm nơi an cư",
-          text: "Khi cân nhắc nơi an cư, hãy bắt đầu từ những câu hỏi gần gũi với cuộc sống hằng ngày: thời gian di chuyển, môi trường xung quanh, tiện ích thiết yếu và kế hoạch của gia đình. Sau đó, tìm hiểu thông tin quy hoạch, hồ sơ pháp lý và khả năng kết nối của khu vực bằng nguồn đáng tin cậy.\n\nMỗi người có ưu tiên khác nhau. Một danh sách nhu cầu rõ ràng sẽ giúp bạn tập trung vào những lựa chọn phù hợp thay vì chỉ nhìn vào hình ảnh quảng bá.",
-        },
-        home: {
-          eyebrow: "Cẩm nang · Chọn nhà",
-          title: "5 điều nên cân nhắc trước khi chọn một ngôi nhà",
-          text: "1. Nhu cầu ở thật và kế hoạch sử dụng.\n2. Ngân sách tổng thể, gồm cả các chi phí liên quan.\n3. Vị trí và thời gian kết nối đến nơi bạn thường xuyên lui tới.\n4. Pháp lý, quy hoạch và các tài liệu cần được kiểm tra độc lập.\n5. Tiến độ, điều khoản thanh toán và thông tin chính thức từ chủ đầu tư.\n\nĐừng ngại dành thời gian đối chiếu tài liệu và hỏi ý kiến chuyên gia độc lập trước khi đưa ra quyết định.",
+        "tieu-chi-mua-dat": {
+          eyebrow: "Kinh nghiệm · 31/10/2026",
+          title: "Tiêu chí khi mua một lô đất",
+          meta: "31/10/2026 · Duy Đức",
+          image: "news-tieu-chi-mua-dat.jpg",
+          imageAlt: "Minh hoạ lô đất được đánh dấu cạnh con đường dẫn vào thành phố",
+          templateId: "article-tieu-chi-mua-dat",
         },
         projects: {
           eyebrow: "Cẩm nang · Tìm hiểu dự án",
@@ -900,6 +1038,17 @@
       const modalText = document.querySelector("#modal-text");
       const homeContent = document.querySelector("#home-content");
       const projectDetailPage = document.querySelector("#project-detail-page");
+
+      let pendingNewsKey = null;
+
+      // Chưa đăng nhập thì chờ, đăng nhập xong mới mở bài (tránh khoá màn hình đăng nhập).
+      function openNewsWhenReady(key) {
+        if (document.documentElement.classList.contains("auth-locked")) {
+          pendingNewsKey = key;
+          return;
+        }
+        openInfo(newsDetails[key]);
+      }
 
       function openInfo(details) {
         modalEyebrow.textContent = details.eyebrow;
@@ -1204,7 +1353,36 @@
         card.querySelectorAll(".lot-thumb").forEach((button) => button.setAttribute("aria-pressed", String(button === thumb)));
       });
 
+      function renderArticlePage(key) {
+        const news = newsDetails[key];
+        const template = document.getElementById(news.templateId);
+        showDetailPage(`
+          <div class="container article-page">
+            <nav class="detail-breadcrumb" aria-label="Điều hướng đường dẫn">
+              <a href="#trang-chu">Trang chủ</a><span aria-hidden="true">/</span>
+              <a href="#tin-tuc">Tin tức</a><span aria-hidden="true">/</span>
+              <span aria-current="page">${news.title}</span>
+            </nav>
+            <header class="article-header">
+              <p class="section-kicker">${news.eyebrow}</p>
+              <h1 class="section-title">${news.title}</h1>
+              <p class="article-meta">${news.meta}</p>
+            </header>
+            <img class="article-cover" src="${news.image}" alt="${news.imageAlt}">
+            <div class="article-body" id="article-body"></div>
+            <p class="detail-disclaimer">Bài viết mang tính tham khảo, không thay cho tư vấn pháp lý. Với giao dịch lớn, nên nhờ công chứng viên hoặc luật sư rà hồ sơ trước khi xuống tiền. Cần hỗ trợ, nhắn Zalo 0968.333.888.</p>
+            <a class="text-link zone-back" href="#tin-tuc"><span aria-hidden="true">←</span> Quay lại Tin tức</a>
+          </div>
+        `);
+        document.getElementById("article-body").append(template.content.cloneNode(true));
+      }
+
       function renderRoute() {
+        const articleRoute = window.location.hash.match(/^#tin\/([a-z0-9-]+)$/i);
+        if (articleRoute && hasOwn(newsDetails, articleRoute[1]) && newsDetails[articleRoute[1]].templateId) {
+          renderArticlePage(articleRoute[1]);
+          return;
+        }
         const projectRoute = window.location.hash.match(/^#du-an\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?(?:\/([a-z0-9-]+))?$/i);
         if (projectRoute && hasOwn(projects, projectRoute[1])) {
           const [, projectKey, zoneKey, lotKey] = projectRoute;
@@ -1230,7 +1408,7 @@
         if (newsRoute && hasOwn(newsDetails, newsRoute[1])) {
           requestAnimationFrame(() => {
             document.getElementById("tin-tuc")?.scrollIntoView();
-            if (!infoDialog.open) openInfo(newsDetails[newsRoute[1]]);
+            if (!infoDialog.open) openNewsWhenReady(newsRoute[1]);
           });
           return;
         }
@@ -1252,7 +1430,7 @@
         if (!trigger || !hasOwn(newsDetails, trigger.dataset.newsOpen)) return;
         event.preventDefault();
         if (window.location.hash !== `#tin/${trigger.dataset.newsOpen}`) history.replaceState(null, "", `#tin/${trigger.dataset.newsOpen}`);
-        openInfo(newsDetails[trigger.dataset.newsOpen]);
+        openNewsWhenReady(trigger.dataset.newsOpen);
       });
 
       document.querySelector(".news-grid").addEventListener("click", (event) => {
@@ -1519,10 +1697,16 @@
         navLogout.title = `Đang đăng nhập: ${phone}`;
         authLoginForm.reset();
         authRegisterForm.reset();
+        if (pendingNewsKey) {
+          const key = pendingNewsKey;
+          pendingNewsKey = null;
+          requestAnimationFrame(() => openInfo(newsDetails[key]));
+        }
       }
 
       function lockSite() {
         try { localStorage.removeItem(AUTH_SESSION_KEY); } catch (error) { /* ignore */ }
+        if (infoDialog.open) infoDialog.close();
         document.documentElement.classList.add("auth-locked");
         navLogout.hidden = true;
         menuToggle.setAttribute("aria-expanded", "false");
