@@ -159,6 +159,14 @@
       .detail-fact + .detail-fact { border-left: 1px solid var(--line); }
       .detail-fact strong { display: block; color: var(--gold-deep); font-size: 10px; }
       .detail-fact span { display: block; margin-top: 6px; color: #79857d; font-size: 9px; line-height: 1.6; }
+      .product-catalog { margin: 0 0 32px; }
+      .product-catalog-header { margin-bottom: 18px; }
+      .product-catalog-header .section-title { font-size: 32px; }
+      .sector-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+      .sector-card { padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+      .sector-card h3 { margin: 0 0 13px; color: var(--gold-deep); font-size: 13px; }
+      .sector-lots { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+      .sector-lots li { min-width: 42px; padding: 7px 9px; border-radius: 5px; background: #f6f0e4; color: #6f5a31; font-size: 10px; font-weight: 700; text-align: center; }
       .detail-disclaimer { margin: 0 0 45px; padding: 15px 17px; border-left: 3px solid #bc984d; background: #f5efdf; color: #695b3f; font-size: 10px; line-height: 1.75; }
       .related-projects { padding: 45px 0; border-top: 1px solid var(--line); }
       .related-projects .section-title { margin-bottom: 22px; font-size: 32px; }
@@ -262,6 +270,8 @@
         .detail-fact { padding: 12px 9px; }
         .detail-fact strong { font-size: 9px; }
         .detail-fact span { font-size: 8px; }
+        .sector-grid { grid-template-columns: 1fr; }
+        .product-catalog-header .section-title { font-size: 27px; }
         .related-projects .section-title { font-size: 27px; }
         .project-toolbar { align-items: flex-start; flex-direction: column; }
         .project-filters { gap: 7px; }
@@ -503,6 +513,11 @@
           image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85",
           imageAlt: "Không gian nghỉ dưỡng hiện đại cạnh thiên nhiên",
           tags: ["Tổng quan dự án", "Thông tin sản phẩm", "Cập nhật chính thức"],
+          sectors: [
+            { name: "Phân khu A", lots: ["A1", "A2", "A3", "A4", "A5", "A6"] },
+            { name: "Phân khu B", lots: ["B1", "B2"] },
+            { name: "Phân khu C", lots: ["C1", "C2", "C3", "C4"] },
+          ],
         },
         haivan: {
           category: "Dự án đô thị",
@@ -569,6 +584,22 @@
               </div>
             </article>
           `).join("");
+        const productCatalog = project.sectors ? `
+          <section class="product-catalog" aria-labelledby="product-catalog-title">
+            <div class="product-catalog-header">
+              <p class="section-kicker">Danera Bay</p>
+              <h2 class="section-title" id="product-catalog-title">Danh mục sản phẩm</h2>
+            </div>
+            <div class="sector-grid">
+              ${project.sectors.map((sector) => `
+                <article class="sector-card">
+                  <h3>${sector.name}</h3>
+                  <ul class="sector-lots">${sector.lots.map((lot) => `<li>${lot}</li>`).join("")}</ul>
+                </article>
+              `).join("")}
+            </div>
+          </section>
+        ` : "";
 
         projectDetailPage.innerHTML = `
           <div class="container">
@@ -594,9 +625,10 @@
                 </div>
               </div>
             </div>
+            ${productCatalog}
             <div class="detail-facts" aria-label="Nội dung trang dự án">
               <div class="detail-fact"><strong>Tổng quan</strong><span>Thông tin giới thiệu dự án</span></div>
-              <div class="detail-fact"><strong>Sản phẩm</strong><span>Liên hệ để cập nhật danh mục</span></div>
+              <div class="detail-fact"><strong>Sản phẩm</strong><span>${project.sectors ? "Xem phân khu A, B, C bên dưới" : "Liên hệ để cập nhật danh mục"}</span></div>
               <div class="detail-fact"><strong>Hồ sơ & tiến độ</strong><span>Xác nhận theo tài liệu mới nhất</span></div>
             </div>
             <p class="detail-disclaimer">Thông tin giới thiệu không thay thế hồ sơ chính thức. Vị trí chi tiết, pháp lý, quy hoạch, tiến độ, giá và chính sách cần được Bảo An Homes xác nhận với tài liệu cập nhật trước khi giao dịch.</p>
