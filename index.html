@@ -168,6 +168,40 @@
       .sector-description { margin: 0 0 12px; color: #68766d; font-size: 10px; line-height: 1.7; }
       .sector-lots { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
       .sector-lots li { min-width: 42px; padding: 7px 9px; border-radius: 5px; background: #f6f0e4; color: #6f5a31; font-size: 10px; font-weight: 700; text-align: center; }
+      .sector-lots li.has-listing { padding: 0; background: none; }
+      .sector-lots li.has-listing a { display: inline-flex; align-items: center; gap: 6px; padding: 7px 9px; border-radius: 5px; background: var(--gold-metal); box-shadow: 0 6px 14px rgb(104 73 15 / 22%); color: white; text-decoration: none; transition: transform .2s; }
+      .sector-lots li.has-listing a:hover { transform: translateY(-2px); }
+      .lot-badge { display: grid; min-width: 16px; height: 16px; padding: 0 4px; place-items: center; border-radius: 999px; background: white; color: var(--gold-deep); font-size: 9px; }
+      .sector-legend { margin: 14px 0 0; color: var(--gold-deep); font-size: 10px; font-weight: 700; }
+      .zone-header { padding: 6px 0 26px; }
+      .zone-header .section-title { margin-bottom: 10px; }
+      .zone-intro { margin: 0; color: var(--muted); font-size: 12px; }
+      .lot-card { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 30px; margin-bottom: 34px; padding: 22px; border: 1px solid var(--line); border-radius: 12px; background: white; }
+      .lot-main { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 9px; background: #efe7d6; }
+      .lot-thumbs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 8px; }
+      .lot-thumb { padding: 0; overflow: hidden; border: 2px solid transparent; border-radius: 6px; background: none; cursor: pointer; }
+      .lot-thumb[aria-pressed="true"] { border-color: var(--gold); }
+      .lot-thumb img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+      .lot-label { margin: 4px 0 6px; color: var(--gold); font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+      .lot-code { margin: 0 0 18px; font-family: var(--serif); font-size: 36px; font-weight: 400; letter-spacing: -.02em; }
+      .lot-price { display: flex; flex-direction: column; gap: 4px; margin: 0 0 18px; padding: 15px 17px; border-radius: 8px; background: #f6efe0; }
+      .lot-price span { color: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+      .lot-price strong { color: var(--gold-deep); font-family: var(--serif); font-size: 28px; font-weight: 500; }
+      .lot-facts { display: grid; gap: 0; margin: 0 0 20px; border-top: 1px solid var(--line); }
+      .lot-facts div { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 11px; }
+      .lot-facts dt { color: var(--muted); }
+      .lot-facts dd { margin: 0; color: var(--ink); font-weight: 700; text-align: right; }
+      .lot-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+      .lot-actions .button-primary { border: 0; cursor: pointer; font-family: var(--sans); }
+      .lot-call { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 7px; color: var(--gold-deep); font-size: 12px; font-weight: 700; text-decoration: none; }
+      .lot-body { grid-column: 1 / -1; padding-top: 22px; border-top: 1px solid var(--line); }
+      .lot-body h3 { margin: 0 0 10px; color: var(--gold-deep); font-size: 14px; }
+      .lot-body p { margin: 0 0 22px; color: #5f6a62; font-size: 12px; line-height: 1.85; }
+      .lot-map { overflow: hidden; margin-bottom: 12px; border: 1px solid var(--line); border-radius: 9px; background: #efe7d6; }
+      .lot-map iframe { display: block; width: 100%; height: 360px; border: 0; }
+      .lot-map-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: 7px; background: var(--gold-deep); color: white; font-size: 12px; font-weight: 700; text-decoration: none; }
+      .lot-body .lot-map-note { margin: 10px 0 0; color: var(--muted); font-size: 10px; }
+      .zone-back { display: inline-flex; margin: 0 0 50px; }
       .nearby-section { margin: 0 0 32px; }
       .nearby-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
       .nearby-item { padding: 13px 15px; border: 1px solid var(--line); border-radius: 7px; background: white; color: #68766d; font-size: 10px; line-height: 1.7; }
@@ -279,6 +313,10 @@
         .detail-fact span { font-size: 8px; }
         .sector-grid { grid-template-columns: 1fr; }
         .nearby-grid { grid-template-columns: 1fr; }
+        .lot-card { grid-template-columns: 1fr; gap: 20px; padding: 14px; }
+        .lot-code { font-size: 30px; }
+        .lot-map iframe { height: 280px; }
+        .lot-actions > * { flex: 1 1 100%; justify-content: center; }
         .product-catalog-header .section-title { font-size: 27px; }
         .related-projects .section-title { font-size: 27px; }
         .project-toolbar { align-items: flex-start; flex-direction: column; }
@@ -611,6 +649,28 @@
             { distance: "Khoảng 15 km", places: "Cầu Rồng và khu vực Lăng Cô" },
           ],
           source: { label: "Royaland · Golden Hills Đà Nẵng", url: "https://royaland.com.vn/du-an/du-an-golden-hills-da-nang.htm" },
+          zones: {
+            a4: {
+              code: "A4",
+              sector: "Phân khu A",
+              lots: [
+                {
+                  code: "B2.2x",
+                  price: "3 tỷ 100 triệu",
+                  description: "Lô đất nền B2.2x thuộc phân khu A4, khu đô thị Danera Bay (Golden Hills), Tây Bắc Đà Nẵng. Hình ảnh thực tế cho thấy lô đất trống, mặt tiền đường bê tông nội khu có vỉa hè lát gạch, cây xanh và đèn chiếu sáng. Diện tích, hướng và hồ sơ pháp lý của lô vui lòng liên hệ Bảo An Homes để nhận thông tin chi tiết.",
+                  mapUrl: "https://goo.gl/maps/wSSXvQU1rz39mwpY7",
+                  mapEmbed: "https://maps.google.com/maps?q=Golden%20Hills%20City%2C%20Li%C3%AAn%20Chi%E1%BB%83u%2C%20%C4%90%C3%A0%20N%E1%BA%B5ng&z=15&output=embed",
+                  mapNote: "Bản đồ hiển thị khu vực dự án. Bấm nút để xem vị trí chính xác của lô trên Google Maps.",
+                  images: [
+                    { src: "danera-a4-b22x-1.jpg", alt: "Lô đất B2.2x phân khu A4 nhìn từ mặt đường" },
+                    { src: "danera-a4-b22x-2.jpg", alt: "Mặt tiền lô đất B2.2x với vỉa hè và cây xanh" },
+                    { src: "danera-a4-b22x-3.jpg", alt: "Tuyến đường nội khu dẫn vào lô đất" },
+                    { src: "danera-a4-b22x-4.jpg", alt: "Đường nội khu có cây xanh và đèn chiếu sáng" },
+                  ],
+                },
+              ],
+            },
+          },
         },
         haivan: {
           category: "Dự án đô thị",
@@ -708,10 +768,16 @@
                 <article class="sector-card">
                   <h3>${sector.name}</h3>
                   ${sector.description ? `<p class="sector-description">${sector.description}</p>` : ""}
-                  <ul class="sector-lots">${sector.lots.map((lot) => `<li>${lot}</li>`).join("")}</ul>
+                  <ul class="sector-lots">${sector.lots.map((lot) => {
+                    const zone = project.zones?.[lot.toLowerCase()];
+                    return zone
+                      ? `<li class="has-listing"><a href="#du-an/${projectKey}/${lot.toLowerCase()}" aria-label="Phân khu ${lot}: ${zone.lots.length} lô đang mở bán, xem chi tiết">${lot}<span class="lot-badge" aria-hidden="true">${zone.lots.length}</span></a></li>`
+                      : `<li>${lot}</li>`;
+                  }).join("")}</ul>
                 </article>
               `).join("")}
             </div>
+            ${project.zones ? `<p class="sector-legend">Ô màu vàng đậm là phân khu đang có lô mở bán, bấm vào để xem chi tiết.</p>` : ""}
             ${project.source ? `<p class="project-source">Thông tin tham khảo: <a href="${project.source.url}" target="_blank" rel="noopener noreferrer">${project.source.label}</a>. Dữ liệu quy hoạch, tiện ích và sản phẩm cần được xác nhận bằng tài liệu chính thức trước khi giao dịch.</p>` : ""}
           </section>
         ` : "";
@@ -772,10 +838,92 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
+      function renderZonePage(projectKey, zoneKey) {
+        const project = projects[projectKey];
+        const zone = project.zones[zoneKey];
+        const lotCards = zone.lots.map((lot) => `
+          <article class="lot-card">
+            <div class="lot-gallery">
+              <img class="lot-main" src="${lot.images[0].src}" alt="${lot.images[0].alt}">
+              <div class="lot-thumbs">
+                ${lot.images.map((image, index) => `
+                  <button class="lot-thumb" type="button" data-lot-image="${image.src}" data-lot-alt="${image.alt}" aria-pressed="${index === 0}" aria-label="Xem ảnh ${index + 1}">
+                    <img src="${image.src}" alt="" loading="lazy">
+                  </button>
+                `).join("")}
+              </div>
+            </div>
+            <div class="lot-info">
+              <p class="lot-label">${project.title} · Phân khu ${zone.code}</p>
+              <h2 class="lot-code">Lô ${lot.code}</h2>
+              <p class="lot-price"><span>Giá bán</span><strong>${lot.price}</strong></p>
+              <dl class="lot-facts">
+                <div><dt>Dự án</dt><dd>${project.title}</dd></div>
+                <div><dt>Phân khu</dt><dd>${zone.code} (${zone.sector})</dd></div>
+                <div><dt>Mã lô</dt><dd>${lot.code}</dd></div>
+                <div><dt>Khu vực</dt><dd>${project.location}</dd></div>
+              </dl>
+              <div class="lot-actions">
+                <button class="button-primary" type="button" data-chat-project="${project.title} – lô ${lot.code} (phân khu ${zone.code}), giá ${lot.price}">Tư vấn lô này qua Zalo <span aria-hidden="true">→</span></button>
+                <a class="lot-call" href="tel:0968333888">Gọi 0968.333.888</a>
+              </div>
+            </div>
+            <div class="lot-body">
+              <h3>Mô tả</h3>
+              <p>${lot.description}</p>
+              <h3>Vị trí trên bản đồ</h3>
+              <div class="lot-map">
+                <iframe src="${lot.mapEmbed}" title="Bản đồ vị trí lô ${lot.code}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+              </div>
+              <a class="lot-map-link" href="${lot.mapUrl}" target="_blank" rel="noopener noreferrer">Mở vị trí lô ${lot.code} trên Google Maps <span aria-hidden="true">↗</span></a>
+              <p class="lot-map-note">${lot.mapNote}</p>
+            </div>
+          </article>
+        `).join("");
+
+        projectDetailPage.innerHTML = `
+          <div class="container">
+            <nav class="detail-breadcrumb" aria-label="Điều hướng đường dẫn">
+              <a href="#trang-chu">Trang chủ</a><span aria-hidden="true">/</span>
+              <a href="#du-an">Dự án</a><span aria-hidden="true">/</span>
+              <a href="#du-an/${projectKey}">${project.title}</a><span aria-hidden="true">/</span>
+              <span aria-current="page">Phân khu ${zone.code}</span>
+            </nav>
+            <header class="zone-header">
+              <p class="section-kicker">${project.title} · ${zone.sector}</p>
+              <h1 class="section-title">Phân khu ${zone.code}</h1>
+              <p class="zone-intro">${String(zone.lots.length).padStart(2, "0")} lô đang được Bảo An Homes giới thiệu tại phân khu này.</p>
+            </header>
+            ${lotCards}
+            <p class="detail-disclaimer">Giá và thông tin lô đất có thể thay đổi theo thời điểm. Vui lòng liên hệ Bảo An Homes để xác nhận diện tích, hướng, pháp lý và giá mới nhất trước khi giao dịch.</p>
+            <a class="text-link zone-back" href="#du-an/${projectKey}"><span aria-hidden="true">←</span> Quay lại ${project.title}</a>
+          </div>
+        `;
+
+        homeContent.hidden = true;
+        projectDetailPage.hidden = false;
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      projectDetailPage.addEventListener("click", (event) => {
+        const thumb = event.target.closest("[data-lot-image]");
+        if (!thumb) return;
+        const card = thumb.closest(".lot-card");
+        const main = card.querySelector(".lot-main");
+        main.src = thumb.dataset.lotImage;
+        main.alt = thumb.dataset.lotAlt;
+        card.querySelectorAll(".lot-thumb").forEach((button) => button.setAttribute("aria-pressed", String(button === thumb)));
+      });
+
       function renderRoute() {
-        const projectRoute = window.location.hash.match(/^#du-an\/([a-z0-9-]+)$/i);
+        const projectRoute = window.location.hash.match(/^#du-an\/([a-z0-9-]+)(?:\/([a-z0-9-]+))?$/i);
         if (projectRoute && Object.hasOwn(projects, projectRoute[1])) {
-          renderProjectPage(projectRoute[1]);
+          const zones = projects[projectRoute[1]].zones;
+          if (projectRoute[2] && zones && Object.hasOwn(zones, projectRoute[2])) {
+            renderZonePage(projectRoute[1], projectRoute[2]);
+          } else {
+            renderProjectPage(projectRoute[1]);
+          }
           return;
         }
 
