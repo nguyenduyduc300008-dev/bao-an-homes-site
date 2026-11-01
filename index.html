@@ -238,6 +238,11 @@
       .zone-group-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
       .zone-group-head h3 { margin: 0; color: var(--gold-deep); font-family: var(--serif); font-size: 22px; font-weight: 500; }
       .zone-group-head h3 span { color: var(--muted); font-family: var(--sans); font-size: 12px; font-weight: 600; }
+      .price-filter { display: flex; width: min(340px, 100%); flex-direction: column; gap: 7px; margin: 0 0 20px; }
+      .price-filter label { color: var(--ink); font-size: 11px; font-weight: 700; }
+      .price-filter select { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--ink); font: inherit; font-size: 11px; }
+      .price-filter select:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 2px; }
+      .price-filter small, .price-filter output { color: var(--muted); font-size: 9px; line-height: 1.6; }
       .lot-list-card { position: relative; }
       .lot-list-card .project-link::after { position: absolute; inset: 0; content: ""; }
       .lot-list-price { margin: 0 0 14px; color: var(--muted); font-size: 12px; }
@@ -1604,6 +1609,18 @@
               <p class="section-kicker">${project.title} · Đang mở bán</p>
               <h2 class="section-title" id="zone-listings-title">Lô đất theo phân khu</h2>
             </div>
+            <div class="price-filter">
+              <label for="price-range">Khoảng giá</label>
+              <select id="price-range" name="price-range">
+                <option value="">Tất cả khoảng giá</option>
+                <option value="2-3">Từ 2 tỷ đến dưới 3 tỷ</option>
+                <option value="3-5">Từ 3 tỷ đến dưới 5 tỷ</option>
+                <option value="5-10">Từ 5 tỷ đến 10 tỷ</option>
+                <option value="over-10">Trên 10 tỷ</option>
+              </select>
+              <small>Lô chưa cập nhật giá sẽ không hiển thị khi lọc theo khoảng.</small>
+              <output id="price-filter-count" aria-live="polite">${zoneEntries.reduce((count, [, zone]) => count + zone.lots.length, 0)} lô</output>
+            </div>
             ${zoneEntries.map(([zoneKey, zone]) => `
               <div class="zone-group">
                 <div class="zone-group-head">
@@ -1721,8 +1738,15 @@
         const zone = project.zones[zoneKey];
         const lot = zone.lots[lotIndex];
         const { lotName } = lotNames(project, zone, lot);
+        const priceParts = String(lot.price || "").toLowerCase();
+        const billionPart = priceParts.match(/(\d+(?:[.,]\d+)?)\s*tỷ/);
+        const millionPart = priceParts.match(/(\d+(?:[.,]\d+)?)\s*triệu/);
+        const toNumber = (value) => Number(value.replace(",", "."));
+        const priceValue = billionPart || millionPart
+          ? (billionPart ? toNumber(billionPart[1]) * 1000000000 : 0) + (millionPart ? toNumber(millionPart[1]) * 1000000 : 0)
+          : "";
         return `
-          <article class="project-card lot-list-card">
+          <article class="project-card lot-list-card" data-price="${priceValue}">
             <div class="project-photo">
               <img src="${lot.images[0].src}" alt="${lot.images[0].alt}" loading="lazy">
               <span class="project-tag">${lot.video ? "Có video thực tế" : "Đang mở bán"}</span>
@@ -1752,6 +1776,40 @@
         grid.innerHTML = cards.join("");
         grid.closest("section").hidden = cards.length === 0;
       }
+
+      projectDetailPage.addEventListener("change", (event) => {
+        const select = event.target.closest("#price-range");
+        if (!select) return;
+
+        const ranges = {
+          "2-3": { min: 2000000000, max: 3000000000, inclusiveMax: false },
+          "3-5": { min: 3000000000, max: 5000000000, inclusiveMax: false },
+          "5-10": { min: 5000000000, max: 10000000000, inclusiveMax: true },
+          "over-10": { min: 10000000000, max: Infinity, inclusiveMax: false },
+        };
+        const range = ranges[select.value];
+        let visibleCount = 0;
+
+        projectDetailPage.querySelectorAll(".zone-group").forEach((group) => {
+          let groupCount = 0;
+          group.querySelectorAll(".lot-list-card").forEach((card) => {
+            const price = card.dataset.price ? Number(card.dataset.price) : NaN;
+            const visible = !range || (Number.isFinite(price)
+              && price >= range.min
+              && (range.inclusiveMax ? price <= range.max : price < range.max));
+            card.hidden = !visible;
+            if (visible) {
+              groupCount += 1;
+              visibleCount += 1;
+            }
+          });
+          group.hidden = groupCount === 0;
+        });
+
+        document.querySelector("#price-filter-count").textContent = range
+          ? `${visibleCount} lô phù hợp`
+          : `${visibleCount} lô`;
+      });
 
       function renderLotPage(projectKey, zoneKey, lotIndex) {
         const project = projects[projectKey];
