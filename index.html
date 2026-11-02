@@ -188,7 +188,8 @@
       .product-catalog-header { margin-bottom: 18px; }
       .product-catalog-header .section-title { font-size: 32px; }
       .sector-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-      .sector-card { padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+      .sector-card { overflow: hidden; padding: 18px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+      .sector-cover { width: calc(100% + 36px); max-width: none; height: 170px; margin: -18px -18px 16px; object-fit: cover; }
       .sector-card h3 { margin: 0 0 13px; color: var(--gold-deep); font-size: 13px; }
       .sector-description { margin: 0 0 12px; color: #68766d; font-size: 10px; line-height: 1.7; }
       .sector-lots { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
@@ -329,6 +330,17 @@
       .contact-actions .button-primary { background: #f0dfb1; color: #523a10; }
       .contact-actions .button-primary:hover { background: #f7e9c4; }
       .contact-actions small { color: #f0e4c8; font-size: 9px; }
+      .customer-care { padding: 0 0 78px; }
+      .customer-care-card { display: flex; align-items: center; gap: 20px; padding: 25px 30px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(120deg, #fff, #f5efdf); }
+      .customer-care-icon { display: grid; flex: 0 0 50px; width: 50px; height: 50px; place-items: center; border-radius: 50%; background: #f1e7ce; color: var(--gold-deep); font-size: 23px; }
+      .customer-care-copy { flex: 1; }
+      .customer-care-copy .section-kicker { margin-bottom: 7px; }
+      .customer-care-copy h2 { margin: 0; font-family: var(--serif); font-size: 25px; font-weight: 500; }
+      .customer-care-copy p { margin: 7px 0 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+      .customer-care-actions { display: flex; flex-wrap: wrap; gap: 9px; }
+      .customer-care-actions .button-primary { min-height: 40px; }
+      .customer-care-call { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; padding: 0 15px; border: 1px solid var(--line); border-radius: 8px; color: var(--gold-deep); font-size: 11px; font-weight: 700; text-decoration: none; }
+      .customer-care-call:hover { border-color: var(--gold); background: white; }
 
       footer { padding: 29px 0; border-top: 1px solid var(--line); background: #f5f1e8; }
       .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
@@ -419,6 +431,10 @@
         .contact-panel { align-items: flex-start; flex-direction: column; gap: 24px; padding: 29px 25px; }
         .contact-agent { min-width: 0; }
         .contact-agent img { width: 92px; height: 92px; flex-basis: 92px; }
+        .customer-care { padding-bottom: 55px; }
+        .customer-care-card { align-items: flex-start; flex-direction: column; gap: 14px; padding: 22px; }
+        .customer-care-actions { width: 100%; }
+        .customer-care-actions > * { flex: 1 1 100%; }
         .footer-inner, .footer-bottom { align-items: flex-start; flex-direction: column; }
         .footer-nav { gap: 14px; }
       }
@@ -531,7 +547,7 @@
           <a href="#ve-chung-toi">Về chúng tôi</a>
           <button class="nav-logout" type="button" id="nav-logout" hidden>Đăng xuất</button>
         </nav>
-        <a class="header-cta" href="#lien-he">Kết nối với chúng tôi <span aria-hidden="true">↗</span></a>
+        <a class="header-cta" href="#cham-soc-khach-hang">Chăm sóc khách hàng <span aria-hidden="true">↗</span></a>
         <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false" aria-controls="main-nav">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
@@ -724,6 +740,22 @@
           </div>
         </div>
       </section>
+      <section class="customer-care" id="cham-soc-khach-hang" aria-labelledby="customer-care-title">
+        <div class="container">
+          <div class="customer-care-card">
+            <span class="customer-care-icon" aria-hidden="true">♡</span>
+            <div class="customer-care-copy">
+              <p class="section-kicker">Bảo An Homes · Đồng hành cùng bạn</p>
+              <h2 id="customer-care-title">Chăm sóc khách hàng</h2>
+              <p>Cần hỗ trợ về dự án, sản phẩm hoặc thông tin đã trao đổi? Gọi trực tiếp hoặc bắt đầu cuộc trò chuyện với đội ngũ tư vấn.</p>
+            </div>
+            <div class="customer-care-actions">
+              <a class="customer-care-call" href="tel:0968333888">Gọi 0968.333.888</a>
+              <button class="button-primary" type="button" data-chat-open>Chat hỗ trợ qua Zalo <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+        </div>
+      </section>
       </div>
       <section class="project-detail-page" id="project-detail-page" hidden aria-live="polite"></section>
     </main>
@@ -741,6 +773,7 @@
             <a href="#du-an">Dự án</a>
             <a href="#tin-tuc">Tin tức</a>
             <a href="#ve-chung-toi">Về chúng tôi</a>
+            <a href="#cham-soc-khach-hang">Chăm sóc khách hàng</a>
             <a href="#lien-he">Kết nối</a>
           </nav>
         </div>
@@ -1454,9 +1487,9 @@
           productSummary: "Biệt thự đơn lập, biệt thự song lập và nhà liền kề",
           developer: "Công ty Cổ phần Vinhomes",
           sectors: [
-            { name: "Vịnh Mây", description: "Phong cách Malibu Hills, địa hình đồi với cao độ đất từ 4,8 m đến 187,5 m.", lots: ["Biệt thự đơn lập", "Nhà liền kề"] },
-            { name: "Đảo Ngọc", description: "Phong cách Costa Smeralda, dự kiến có khách sạn Vinpearl LegendLux.", lots: ["Biệt thự đơn lập", "Biệt thự song lập", "Nhà liền kề"] },
-            { name: "Bạch Vân", description: "Phong cách châu Á.", lots: ["Biệt thự đơn lập", "Biệt thự song lập", "Nhà liền kề"] },
+            { name: "Vịnh Mây", image: "images/vinhomes/vinh-may.jpg", imageAlt: "Phối cảnh cảnh quan ven vịnh tại phân khu Vịnh Mây", description: "Phong cách Malibu Hills, địa hình đồi với cao độ đất từ 4,8 m đến 187,5 m.", lots: ["Biệt thự đơn lập", "Nhà liền kề"] },
+            { name: "Đảo Ngọc", image: "images/vinhomes/dao-ngoc.jpg", imageAlt: "Cảnh quan bãi biển tại phân khu Đảo Ngọc", description: "Phong cách Costa Smeralda, dự kiến có khách sạn Vinpearl LegendLux.", lots: ["Biệt thự đơn lập", "Biệt thự song lập", "Nhà liền kề"] },
+            { name: "Bạch Vân", image: "images/vinhomes/bach-van.jpg", imageAlt: "Không gian nghỉ dưỡng trong căn hộ phân khu Bạch Vân", description: "Phong cách châu Á.", lots: ["Biệt thự đơn lập", "Biệt thự song lập", "Nhà liền kề"] },
             { name: "Tinh Vân", description: "Thông tin phân khu đang được cập nhật.", lots: [] },
           ],
           nearbyKicker: "Nội khu & kết nối",
@@ -1587,6 +1620,7 @@
             <div class="sector-grid">
               ${project.sectors.map((sector) => `
                 <article class="sector-card">
+                  ${sector.image ? `<img class="sector-cover" src="${sector.image}" alt="${sector.imageAlt}" loading="lazy" decoding="async">` : ""}
                   <h3>${sector.name}</h3>
                   ${sector.description ? `<p class="sector-description">${sector.description}</p>` : ""}
                   <ul class="sector-lots">${sector.lots.map((lot) => {
