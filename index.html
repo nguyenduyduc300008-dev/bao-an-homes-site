@@ -197,6 +197,33 @@
       .sector-description { margin: 0 0 12px; color: #68766d; font-size: 10px; line-height: 1.7; }
       .sector-card-action { display: flex; justify-content: space-between; gap: 8px; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--gold-deep); font-size: 10px; font-weight: 700; }
       .sector-gallery-intro { max-width: 760px; margin: 0 0 23px; color: #68766d; font-size: 12px; line-height: 1.85; }
+      .inventory-section { margin: 36px 0 46px; }
+      .inventory-section .product-catalog-header { margin-bottom: 12px; }
+      .inventory-intro { margin: 0 0 18px; color: var(--muted); font-size: 11px; line-height: 1.75; }
+      .inventory-controls { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(150px, .7fr)); gap: 12px; margin-bottom: 14px; }
+      .inventory-control { display: grid; gap: 6px; color: #68766d; font-size: 10px; font-weight: 700; }
+      .inventory-control input, .inventory-control select { width: 100%; min-width: 0; min-height: 42px; padding: 0 11px; border: 1px solid var(--line); border-radius: 7px; background: white; color: var(--ink); font: inherit; font-size: 11px; }
+      .inventory-status { min-height: 18px; margin: 0 0 12px; color: var(--muted); font-size: 10px; }
+      .inventory-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+      .inventory-empty { grid-column: 1 / -1; margin: 0; padding: 22px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); font-size: 11px; text-align: center; }
+      .inventory-card { display: flex; min-width: 0; flex-direction: column; padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: white; }
+      .inventory-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+      .inventory-code { margin: 0; color: var(--gold-deep); font-size: 15px; font-weight: 800; }
+      .inventory-type { max-width: 55%; padding: 5px 7px; border-radius: 99px; background: #f5efdf; color: #6f5a31; font-size: 9px; text-align: center; }
+      .inventory-price { margin: 14px 0 12px; color: var(--gold-deep); font-size: 17px; font-weight: 800; }
+      .inventory-price-label { display: block; margin-bottom: 4px; color: var(--muted); font-size: 9px; font-weight: 600; }
+      .inventory-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 0; }
+      .inventory-fact { padding: 9px; border-radius: 6px; background: #faf8f3; }
+      .inventory-fact dt { color: var(--muted); font-size: 9px; }
+      .inventory-fact dd { margin: 5px 0 0; color: var(--ink); font-size: 11px; font-weight: 700; }
+      .inventory-condition { margin: 11px 0 0; color: #68766d; font-size: 9px; }
+      .inventory-card-footer { margin-top: auto; padding-top: 12px; }
+      .inventory-contact { display: inline-flex; min-height: 36px; align-items: center; padding: 0 12px; border-radius: 6px; background: var(--gold-metal); color: white; font-size: 10px; font-weight: 700; text-decoration: none; }
+      .inventory-contact:hover { background: var(--gold-deep); }
+      .inventory-pagination { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 16px; }
+      .inventory-pagination button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: white; color: var(--gold-deep); cursor: pointer; font: inherit; font-size: 10px; font-weight: 700; }
+      .inventory-pagination button:disabled { opacity: .45; cursor: not-allowed; }
+      .inventory-page-number { color: var(--muted); font-size: 10px; }
       .sector-gallery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 28px; }
       .sector-gallery-item { position: relative; display: block; padding: 0; overflow: hidden; border: 1px solid var(--line); border-radius: 8px; background: #e8e4d8; cursor: zoom-in; }
       .sector-gallery-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: transform .3s; }
@@ -428,6 +455,9 @@
         .detail-fact strong { font-size: 9px; }
         .detail-fact span { font-size: 8px; }
         .sector-grid { grid-template-columns: 1fr; }
+        .inventory-controls { grid-template-columns: 1fr 1fr; }
+        .inventory-control:first-child { grid-column: 1 / -1; }
+        .inventory-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .sector-gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
         .sector-viewer { padding: 48px 48px 20px; }
         .sector-viewer-button { width: 36px; height: 36px; }
@@ -1419,9 +1449,12 @@
       </div>
     </section>
 
+    <script src="data/hai-van-inventory.js"></script>
     <script>
       // Hỗ trợ trình duyệt cũ (iPhone đời cũ, trình duyệt trong Zalo...)
       const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
+      if (!window.BAOAN_SECTOR_INVENTORY) throw new Error("Không tải được dữ liệu sản phẩm Hải Vân Bay.");
+      const sectorInventory = window.BAOAN_SECTOR_INVENTORY;
       if (!Element.prototype.replaceChildren) {
         Element.prototype.replaceChildren = function replaceChildren(...nodes) {
           this.innerHTML = "";
@@ -1633,6 +1666,12 @@
         infoDialog.showModal();
       }
 
+      function getSectorInventory(sectorSlug) {
+        const inventory = sectorInventory[sectorSlug];
+        if (!Array.isArray(inventory)) throw new Error(`Thiếu dữ liệu sản phẩm cho phân khu ${sectorSlug}.`);
+        return inventory;
+      }
+
       function renderProjectPage(projectKey) {
         const project = projects[projectKey];
         if (!project) {
@@ -1663,6 +1702,7 @@
             </div>
             <div class="sector-grid">
               ${project.sectors.map((sector) => {
+                const listingCount = sector.galleryFolder ? getSectorInventory(sector.slug).length : 0;
                 const card = `
                   <article class="sector-card">
                     ${sector.image ? `<img class="sector-cover" src="${sector.image}" alt="${sector.imageAlt}" loading="lazy" decoding="async">` : ""}
@@ -1674,7 +1714,7 @@
                         ? `<li class="has-listing"><a href="#du-an/${projectKey}/${lot.toLowerCase()}" aria-label="Phân khu ${lot}: ${zone.lots.length} lô đang mở bán, xem chi tiết">${lot}<span class="lot-badge" aria-hidden="true">${zone.lots.length}</span></a></li>`
                         : `<li>${lot}</li>`;
                     }).join("")}</ul>` : ""}
-                    ${sector.galleryFolder ? `<span class="sector-card-action"><span>Xem giới thiệu và ${sector.galleryCount} ảnh</span><span aria-hidden="true">→</span></span>` : ""}
+                    ${sector.galleryFolder ? `<span class="sector-card-action"><span>Xem ${listingCount} căn · ${sector.galleryCount} ảnh</span><span aria-hidden="true">→</span></span>` : ""}
                   </article>
                 `;
                 return sector.galleryFolder
@@ -1792,6 +1832,75 @@
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
+      function renderSectorProducts(sectorSlug, sectorName) {
+        const inventory = getSectorInventory(sectorSlug);
+        const section = document.querySelector("#sector-product-inventory");
+        const search = section.querySelector("[data-inventory-search]");
+        const typeFilter = section.querySelector("[data-inventory-type]");
+        const sortSelect = section.querySelector("[data-inventory-sort]");
+        const status = section.querySelector("[data-inventory-status]");
+        const grid = section.querySelector("[data-inventory-grid]");
+        const pagination = section.querySelector("[data-inventory-pagination]");
+        const pageSize = 12;
+        const state = { page: 1 };
+        const priceFormatter = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND", maximumFractionDigits: 0 });
+        const areaFormatter = new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 1 });
+        const escapeValue = (value) => String(value ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+        const types = [...new Set(inventory.map((item) => item.type).filter(Boolean))]
+          .sort((a, b) => a.localeCompare(b, "vi"));
+        typeFilter.insertAdjacentHTML("beforeend", types.map((type) => `<option value="${escapeValue(type)}">${escapeValue(type)}</option>`).join(""));
+
+        const render = () => {
+          const query = search.value.trim().toLocaleLowerCase("vi");
+          const filtered = inventory.filter((item) => {
+            const matchesQuery = !query || `${item.code} ${item.type}`.toLocaleLowerCase("vi").includes(query);
+            return matchesQuery && (!typeFilter.value || item.type === typeFilter.value);
+          });
+          filtered.sort((a, b) => {
+            if (sortSelect.value === "price-asc") return (a.fullPrice ?? Infinity) - (b.fullPrice ?? Infinity) || a.code.localeCompare(b.code, "vi");
+            if (sortSelect.value === "price-desc") return (b.fullPrice ?? -Infinity) - (a.fullPrice ?? -Infinity) || a.code.localeCompare(b.code, "vi");
+            return a.code.localeCompare(b.code, "vi", { numeric: true });
+          });
+
+          const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
+          state.page = Math.min(state.page, pageCount);
+          const pageItems = filtered.slice((state.page - 1) * pageSize, state.page * pageSize);
+          status.textContent = `Hiển thị ${pageItems.length ? (state.page - 1) * pageSize + 1 : 0}–${Math.min(state.page * pageSize, filtered.length)} / ${filtered.length} căn`;
+          grid.innerHTML = pageItems.length ? pageItems.map((item) => `
+            <article class="inventory-card">
+              <div class="inventory-card-header">
+                <h3 class="inventory-code">${escapeValue(item.code)}</h3>
+                <span class="inventory-type">${escapeValue(item.type || "Loại hình đang cập nhật")}</span>
+              </div>
+              <p class="inventory-price"><span class="inventory-price-label">Giá full cơ sở</span>${item.fullPrice ? priceFormatter.format(item.fullPrice) : "Liên hệ"}</p>
+              <dl class="inventory-facts">
+                <div class="inventory-fact"><dt>Diện tích đất</dt><dd>${item.landArea == null ? "Đang cập nhật" : `${areaFormatter.format(item.landArea)} m²`}</dd></div>
+                <div class="inventory-fact"><dt>Diện tích xây dựng</dt><dd>${item.buildingArea == null ? "Đang cập nhật" : `${areaFormatter.format(item.buildingArea)} m²`}</dd></div>
+              </dl>
+              ${item.condition ? `<p class="inventory-condition">Ghi chú bảng hàng: ${escapeValue(item.condition)}</p>` : ""}
+              <div class="inventory-card-footer">
+                <a class="inventory-contact" href="#lien-he" data-chat-project="${escapeValue(`Vinhomes Hải Vân Bay · ${sectorName} · căn ${item.code}`)}">Hỏi căn này <span aria-hidden="true"> →</span></a>
+              </div>
+            </article>
+          `).join("") : `<p class="inventory-empty">Không tìm thấy căn phù hợp với bộ lọc.</p>`;
+          pagination.querySelector("[data-inventory-page]").textContent = `Trang ${state.page} / ${pageCount}`;
+          pagination.querySelector("[data-inventory-previous]").disabled = state.page <= 1;
+          pagination.querySelector("[data-inventory-next]").disabled = state.page >= pageCount;
+        };
+
+        search.addEventListener("input", () => { state.page = 1; render(); });
+        typeFilter.addEventListener("change", () => { state.page = 1; render(); });
+        sortSelect.addEventListener("change", () => { state.page = 1; render(); });
+        pagination.querySelector("[data-inventory-previous]").addEventListener("click", () => { state.page -= 1; render(); });
+        pagination.querySelector("[data-inventory-next]").addEventListener("click", () => { state.page += 1; render(); });
+        render();
+      }
+
       function renderSectorPage(projectKey, sectorSlug) {
         const project = projects[projectKey];
         const sector = project?.sectors?.find((item) => item.slug === sectorSlug);
@@ -1833,6 +1942,35 @@
                 </div>
               </div>
             </div>
+            <section class="inventory-section" id="sector-product-inventory" aria-labelledby="sector-product-title">
+              <div class="product-catalog-header">
+                <p class="section-kicker">${sector.name} · Bảng hàng tham khảo</p>
+                <h2 class="section-title" id="sector-product-title">Sản phẩm đang tham khảo</h2>
+              </div>
+              <p class="inventory-intro">Giá hiển thị là giá full cơ sở theo bảng hàng ngày 12/10/2026. Đơn vị phân phối đã được lược bỏ; mã căn trùng được gộp theo dòng cuối cùng có giá. Giá và tình trạng căn cần được xác nhận trước khi giao dịch.</p>
+              <div class="inventory-controls">
+                <label class="inventory-control">Tìm mã căn
+                  <input type="search" data-inventory-search placeholder="Nhập mã căn..." autocomplete="off">
+                </label>
+                <label class="inventory-control">Loại hình
+                  <select data-inventory-type><option value="">Tất cả loại hình</option></select>
+                </label>
+                <label class="inventory-control">Sắp xếp
+                  <select data-inventory-sort>
+                    <option value="code">Mã căn</option>
+                    <option value="price-asc">Giá thấp đến cao</option>
+                    <option value="price-desc">Giá cao đến thấp</option>
+                  </select>
+                </label>
+              </div>
+              <p class="inventory-status" data-inventory-status aria-live="polite"></p>
+              <div class="inventory-grid" data-inventory-grid></div>
+              <nav class="inventory-pagination" data-inventory-pagination aria-label="Trang sản phẩm">
+                <button type="button" data-inventory-previous>Trước</button>
+                <span class="inventory-page-number" data-inventory-page aria-live="polite"></span>
+                <button type="button" data-inventory-next>Tiếp</button>
+              </nav>
+            </section>
             <div class="product-catalog-header">
               <p class="section-kicker">${sector.name} · Album tư liệu</p>
               <h2 class="section-title">Hình ảnh giới thiệu khu</h2>
@@ -1851,6 +1989,7 @@
           </div>
         `);
 
+        renderSectorProducts(sectorSlug, sector.name);
         activeSectorImages = images;
       }
 
